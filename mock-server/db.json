@@ -1,0 +1,2300 @@
+{
+  "bookings": [
+    {
+      "id": "booking-1",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-997",
+      "status": "no_show",
+      "booked_at": "2025-12-02T08:44:44.226Z",
+      "scheduled_date": "2025-12-04",
+      "scheduled_time": "13:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-0",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-2",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-189",
+      "status": "cancelled",
+      "booked_at": "2025-11-25T08:44:44.226Z",
+      "scheduled_date": "2025-11-30",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-1",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-46",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-799",
+      "status": "pending",
+      "booked_at": "2026-02-24T08:44:44.226Z",
+      "scheduled_date": "2026-02-27",
+      "scheduled_time": "14:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-45",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-26",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-569",
+      "status": "confirmed",
+      "booked_at": "2026-02-25T08:44:44.226Z",
+      "scheduled_date": "2026-02-26",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-25",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-49",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-365",
+      "status": "pending",
+      "booked_at": "2026-02-15T08:44:44.226Z",
+      "scheduled_date": "2026-02-17",
+      "scheduled_time": "15:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-48",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-17",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-350",
+      "status": "pending",
+      "booked_at": "2026-02-15T08:44:44.226Z",
+      "scheduled_date": "2026-02-17",
+      "scheduled_time": "12:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-16",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-8",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-123",
+      "status": "scheduled",
+      "booked_at": "2026-02-14T08:44:44.226Z",
+      "scheduled_date": "2026-02-17",
+      "scheduled_time": "11:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-7",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-33",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-992",
+      "status": "pending",
+      "booked_at": "2026-02-08T08:44:44.226Z",
+      "scheduled_date": "2026-02-10",
+      "scheduled_time": "14:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-32",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-32",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-470",
+      "status": "confirmed",
+      "booked_at": "2026-02-07T08:44:44.226Z",
+      "scheduled_date": "2026-02-08",
+      "scheduled_time": "16:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-31",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-24",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-879",
+      "status": "scheduled",
+      "booked_at": "2026-02-07T08:44:44.226Z",
+      "scheduled_date": "2026-02-08",
+      "scheduled_time": "13:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-23",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-3",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-626",
+      "status": "scheduled",
+      "booked_at": "2026-02-01T08:44:44.226Z",
+      "scheduled_date": "2026-02-05",
+      "scheduled_time": "11:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-2",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-35",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-371",
+      "status": "pending",
+      "booked_at": "2026-01-29T08:44:44.226Z",
+      "scheduled_date": "2026-02-01",
+      "scheduled_time": "15:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-34",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-42",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-421",
+      "status": "scheduled",
+      "booked_at": "2026-01-28T08:44:44.226Z",
+      "scheduled_date": "2026-02-01",
+      "scheduled_time": "12:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-41",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-5",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-670",
+      "status": "confirmed",
+      "booked_at": "2026-01-26T08:44:44.226Z",
+      "scheduled_date": "2026-01-29",
+      "scheduled_time": "15:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-4",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-23",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-900",
+      "status": "confirmed",
+      "booked_at": "2026-01-24T08:44:44.226Z",
+      "scheduled_date": "2026-01-29",
+      "scheduled_time": "12:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-22",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-21",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-817",
+      "status": "cancelled",
+      "booked_at": "2026-01-22T08:44:44.226Z",
+      "scheduled_date": "2026-01-27",
+      "scheduled_time": "14:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-20",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-36",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-133",
+      "status": "completed",
+      "booked_at": "2026-01-22T08:44:44.226Z",
+      "scheduled_date": "2026-01-24",
+      "scheduled_time": "13:00",
+      "completed_at": "2026-01-24T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-35",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-38",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-389",
+      "status": "completed",
+      "booked_at": "2026-01-14T08:44:44.226Z",
+      "scheduled_date": "2026-01-19",
+      "scheduled_time": "14:00",
+      "completed_at": "2026-01-19T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-37",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-50",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-723",
+      "status": "cancelled",
+      "booked_at": "2026-01-18T08:44:44.226Z",
+      "scheduled_date": "2026-01-19",
+      "scheduled_time": "12:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-49",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-9",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-411",
+      "status": "no_show",
+      "booked_at": "2026-01-16T08:44:44.226Z",
+      "scheduled_date": "2026-01-18",
+      "scheduled_time": "12:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-8",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-15",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-251",
+      "status": "completed",
+      "booked_at": "2026-01-12T08:44:44.226Z",
+      "scheduled_date": "2026-01-15",
+      "scheduled_time": "18:00",
+      "completed_at": "2026-01-15T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-14",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-6",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-484",
+      "status": "no_show",
+      "booked_at": "2026-01-11T08:44:44.226Z",
+      "scheduled_date": "2026-01-15",
+      "scheduled_time": "12:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-5",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-28",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-877",
+      "status": "completed",
+      "booked_at": "2026-01-09T08:44:44.226Z",
+      "scheduled_date": "2026-01-14",
+      "scheduled_time": "17:00",
+      "completed_at": "2026-01-14T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-27",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-30",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-159",
+      "status": "completed",
+      "booked_at": "2026-01-12T08:44:44.226Z",
+      "scheduled_date": "2026-01-14",
+      "scheduled_time": "10:00",
+      "completed_at": "2026-01-14T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-29",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-44",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-974",
+      "status": "cancelled",
+      "booked_at": "2026-01-06T08:44:44.226Z",
+      "scheduled_date": "2026-01-09",
+      "scheduled_time": "16:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-43",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-19",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-987",
+      "status": "cancelled",
+      "booked_at": "2026-01-01T08:44:44.226Z",
+      "scheduled_date": "2026-01-04",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-18",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-43",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-910",
+      "status": "no_show",
+      "booked_at": "2025-12-25T08:44:44.226Z",
+      "scheduled_date": "2025-12-29",
+      "scheduled_time": "16:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-42",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-40",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-650",
+      "status": "no_show",
+      "booked_at": "2025-12-25T08:44:44.226Z",
+      "scheduled_date": "2025-12-28",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-39",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-41",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-859",
+      "status": "completed",
+      "booked_at": "2025-12-24T08:44:44.226Z",
+      "scheduled_date": "2025-12-25",
+      "scheduled_time": "11:00",
+      "completed_at": "2025-12-25T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-40",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-16",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-298",
+      "status": "no_show",
+      "booked_at": "2025-12-20T08:44:44.226Z",
+      "scheduled_date": "2025-12-24",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-15",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-22",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-258",
+      "status": "cancelled",
+      "booked_at": "2025-12-17T08:44:44.226Z",
+      "scheduled_date": "2025-12-22",
+      "scheduled_time": "14:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-21",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-13",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-805",
+      "status": "completed",
+      "booked_at": "2025-12-15T08:44:44.226Z",
+      "scheduled_date": "2025-12-19",
+      "scheduled_time": "10:00",
+      "completed_at": "2025-12-19T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-12",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-4",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-941",
+      "status": "completed",
+      "booked_at": "2025-12-16T08:44:44.226Z",
+      "scheduled_date": "2025-12-18",
+      "scheduled_time": "11:00",
+      "completed_at": "2025-12-18T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-3",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-11",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-341",
+      "status": "cancelled",
+      "booked_at": "2025-12-09T08:44:44.226Z",
+      "scheduled_date": "2025-12-12",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-10",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-47",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-434",
+      "status": "no_show",
+      "booked_at": "2025-12-10T08:44:44.226Z",
+      "scheduled_date": "2025-12-12",
+      "scheduled_time": "12:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-46",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-14",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-792",
+      "status": "completed",
+      "booked_at": "2025-12-07T08:44:44.226Z",
+      "scheduled_date": "2025-12-08",
+      "scheduled_time": "10:00",
+      "completed_at": "2025-12-08T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-13",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-7",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-373",
+      "status": "cancelled",
+      "booked_at": "2025-11-28T08:44:44.226Z",
+      "scheduled_date": "2025-11-29",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-6",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-10",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-297",
+      "status": "pending",
+      "booked_at": "2026-02-07T08:44:44.226Z",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-9",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-18",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-383",
+      "status": "cancelled",
+      "booked_at": "2025-11-30T08:44:44.226Z",
+      "scheduled_date": "2025-12-01",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-17",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-12",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-164",
+      "status": "completed",
+      "booked_at": "2025-11-26T08:44:44.226Z",
+      "scheduled_date": "2025-12-01",
+      "scheduled_time": "16:00",
+      "completed_at": "2025-12-01T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-11",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-20",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-929",
+      "status": "scheduled",
+      "booked_at": "2026-02-16T08:44:44.226Z",
+      "scheduled_date": "2026-02-17",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-19",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-25",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-803",
+      "status": "scheduled",
+      "booked_at": "2026-02-23T08:44:44.226Z",
+      "scheduled_date": "2026-02-24",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-24",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-27",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-120",
+      "status": "confirmed",
+      "booked_at": "2026-01-26T08:44:44.226Z",
+      "scheduled_date": "2026-01-30",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-26",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-29",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-170",
+      "status": "scheduled",
+      "booked_at": "2026-02-20T08:44:44.226Z",
+      "scheduled_date": "2026-02-23",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-28",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-48",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-639",
+      "status": "cancelled",
+      "booked_at": "2025-12-31T08:44:44.226Z",
+      "scheduled_date": "2026-01-03",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-47",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-37",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-101",
+      "status": "completed",
+      "booked_at": "2025-12-27T08:44:44.226Z",
+      "scheduled_date": "2026-01-01",
+      "scheduled_time": "15:00",
+      "completed_at": "2026-01-01T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-36",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-34",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-209",
+      "status": "cancelled",
+      "booked_at": "2025-12-22T08:44:44.226Z",
+      "scheduled_date": "2025-12-26",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-33",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-45",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-829",
+      "status": "completed",
+      "booked_at": "2025-12-21T08:44:44.226Z",
+      "scheduled_date": "2025-12-22",
+      "scheduled_time": "11:00",
+      "completed_at": "2025-12-22T08:44:44.226Z",
+      "is_winner": true,
+      "promotion": {
+        "id": "promo-detail-44",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-31",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-136",
+      "status": "no_show",
+      "booked_at": "2025-12-15T08:44:44.226Z",
+      "scheduled_date": "2025-12-19",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": true,
+      "promotion": {
+        "id": "promo-detail-30",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-39",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-740",
+      "status": "completed",
+      "booked_at": "2026-01-16T08:44:44.226Z",
+      "scheduled_date": "2026-01-21",
+      "scheduled_time": "9:00",
+      "completed_at": "2026-01-21T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-38",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-65",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-647",
+      "status": "scheduled",
+      "booked_at": "2026-02-20T08:44:44.226Z",
+      "scheduled_date": "2026-02-23",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-64",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-96",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-618",
+      "status": "pending",
+      "booked_at": "2026-02-18T08:44:44.226Z",
+      "scheduled_date": "2026-02-21",
+      "scheduled_time": "13:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-95",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-52",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-772",
+      "status": "scheduled",
+      "booked_at": "2026-02-17T08:44:44.226Z",
+      "scheduled_date": "2026-02-20",
+      "scheduled_time": "14:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-51",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-95",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-271",
+      "status": "confirmed",
+      "booked_at": "2026-02-14T08:44:44.226Z",
+      "scheduled_date": "2026-02-19",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-94",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-94",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-796",
+      "status": "confirmed",
+      "booked_at": "2026-02-15T08:44:44.226Z",
+      "scheduled_date": "2026-02-19",
+      "scheduled_time": "16:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-93",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-58",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-254",
+      "status": "scheduled",
+      "booked_at": "2026-02-16T08:44:44.226Z",
+      "scheduled_date": "2026-02-19",
+      "scheduled_time": "13:00",
+      "completed_at": null,
+      "is_winner": true,
+      "promotion": {
+        "id": "promo-detail-57",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-80",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-872",
+      "status": "pending",
+      "booked_at": "2026-02-16T08:44:44.226Z",
+      "scheduled_date": "2026-02-17",
+      "scheduled_time": "18:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-79",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-98",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-648",
+      "status": "pending",
+      "booked_at": "2026-02-14T08:44:44.226Z",
+      "scheduled_date": "2026-02-17",
+      "scheduled_time": "13:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-97",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-73",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-149",
+      "status": "confirmed",
+      "booked_at": "2026-02-15T08:44:44.226Z",
+      "scheduled_date": "2026-02-16",
+      "scheduled_time": "18:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-72",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-63",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-841",
+      "status": "pending",
+      "booked_at": "2026-02-10T08:44:44.226Z",
+      "scheduled_date": "2026-02-13",
+      "scheduled_time": "18:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-62",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-89",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-597",
+      "status": "confirmed",
+      "booked_at": "2026-02-11T08:44:44.226Z",
+      "scheduled_date": "2026-02-12",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-88",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-60",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-460",
+      "status": "confirmed",
+      "booked_at": "2026-02-08T08:44:44.226Z",
+      "scheduled_date": "2026-02-11",
+      "scheduled_time": "14:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-59",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-56",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-240",
+      "status": "pending",
+      "booked_at": "2026-02-06T08:44:44.226Z",
+      "scheduled_date": "2026-02-11",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-55",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-54",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-377",
+      "status": "scheduled",
+      "booked_at": "2026-02-05T08:44:44.226Z",
+      "scheduled_date": "2026-02-06",
+      "scheduled_time": "18:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-53",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-86",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-937",
+      "status": "confirmed",
+      "booked_at": "2026-02-02T08:44:44.226Z",
+      "scheduled_date": "2026-02-04",
+      "scheduled_time": "16:00",
+      "completed_at": null,
+      "is_winner": true,
+      "promotion": {
+        "id": "promo-detail-85",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-66",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-795",
+      "status": "pending",
+      "booked_at": "2026-01-30T08:44:44.226Z",
+      "scheduled_date": "2026-01-31",
+      "scheduled_time": "18:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-65",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-87",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-452",
+      "status": "scheduled",
+      "booked_at": "2026-01-25T08:44:44.226Z",
+      "scheduled_date": "2026-01-30",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-86",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-81",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-550",
+      "status": "scheduled",
+      "booked_at": "2026-01-24T08:44:44.226Z",
+      "scheduled_date": "2026-01-29",
+      "scheduled_time": "16:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-80",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-51",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-181",
+      "status": "confirmed",
+      "booked_at": "2026-01-27T08:44:44.226Z",
+      "scheduled_date": "2026-01-29",
+      "scheduled_time": "11:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-50",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-90",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-351",
+      "status": "completed",
+      "booked_at": "2026-01-21T08:44:44.226Z",
+      "scheduled_date": "2026-01-26",
+      "scheduled_time": "16:00",
+      "completed_at": "2026-01-26T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-89",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-99",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-440",
+      "status": "no_show",
+      "booked_at": "2026-01-21T08:44:44.226Z",
+      "scheduled_date": "2026-01-23",
+      "scheduled_time": "18:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-98",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-72",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-715",
+      "status": "completed",
+      "booked_at": "2026-01-19T08:44:44.226Z",
+      "scheduled_date": "2026-01-23",
+      "scheduled_time": "17:00",
+      "completed_at": "2026-01-23T08:44:44.226Z",
+      "is_winner": true,
+      "promotion": {
+        "id": "promo-detail-71",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-93",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-112",
+      "status": "no_show",
+      "booked_at": "2026-01-19T08:44:44.226Z",
+      "scheduled_date": "2026-01-21",
+      "scheduled_time": "13:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-92",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-64",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-454",
+      "status": "no_show",
+      "booked_at": "2026-01-13T08:44:44.226Z",
+      "scheduled_date": "2026-01-18",
+      "scheduled_time": "16:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-63",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-82",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-623",
+      "status": "no_show",
+      "booked_at": "2026-01-13T08:44:44.226Z",
+      "scheduled_date": "2026-01-16",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-81",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-61",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-824",
+      "status": "completed",
+      "booked_at": "2026-01-05T08:44:44.226Z",
+      "scheduled_date": "2026-01-07",
+      "scheduled_time": "11:00",
+      "completed_at": "2026-01-07T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-60",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-97",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-970",
+      "status": "cancelled",
+      "booked_at": "2026-01-01T08:44:44.226Z",
+      "scheduled_date": "2026-01-02",
+      "scheduled_time": "15:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-96",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-67",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-194",
+      "status": "no_show",
+      "booked_at": "2025-12-30T08:44:44.226Z",
+      "scheduled_date": "2026-01-02",
+      "scheduled_time": "14:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-66",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-78",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-946",
+      "status": "no_show",
+      "booked_at": "2025-12-23T08:44:44.226Z",
+      "scheduled_date": "2025-12-27",
+      "scheduled_time": "16:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-77",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-59",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-776",
+      "status": "no_show",
+      "booked_at": "2025-12-21T08:44:44.226Z",
+      "scheduled_date": "2025-12-25",
+      "scheduled_time": "12:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-58",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-88",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-796",
+      "status": "no_show",
+      "booked_at": "2025-12-19T08:44:44.226Z",
+      "scheduled_date": "2025-12-20",
+      "scheduled_time": "15:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-87",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-68",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-811",
+      "status": "no_show",
+      "booked_at": "2025-12-18T08:44:44.226Z",
+      "scheduled_date": "2025-12-20",
+      "scheduled_time": "13:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-67",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-55",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-776",
+      "status": "cancelled",
+      "booked_at": "2025-12-18T08:44:44.226Z",
+      "scheduled_date": "2025-12-20",
+      "scheduled_time": "11:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-54",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-53",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-738",
+      "status": "cancelled",
+      "booked_at": "2025-12-13T08:44:44.226Z",
+      "scheduled_date": "2025-12-18",
+      "scheduled_time": "12:00",
+      "completed_at": null,
+      "is_winner": true,
+      "promotion": {
+        "id": "promo-detail-52",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-57",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-510",
+      "status": "confirmed",
+      "booked_at": "2026-01-30T08:44:44.226Z",
+      "scheduled_date": "2026-02-04",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-56",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-75",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-286",
+      "status": "completed",
+      "booked_at": "2025-12-19T08:44:44.226Z",
+      "scheduled_date": "2025-12-23",
+      "scheduled_time": "12:00",
+      "completed_at": "2025-12-23T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-74",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-84",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-872",
+      "status": "cancelled",
+      "booked_at": "2025-12-17T08:44:44.226Z",
+      "scheduled_date": "2025-12-18",
+      "scheduled_time": "11:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-83",
+        "service_name": "Yuz Tozalash",
+        "salon_name": "Lola SPA",
+        "salon_id": "salon-3",
+        "original_price": 250000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-70",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-382",
+      "status": "no_show",
+      "booked_at": "2025-12-15T08:44:44.226Z",
+      "scheduled_date": "2025-12-18",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-69",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-76",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-880",
+      "status": "cancelled",
+      "booked_at": "2025-12-07T08:44:44.226Z",
+      "scheduled_date": "2025-12-12",
+      "scheduled_time": "11:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-75",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-69",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-931",
+      "status": "no_show",
+      "booked_at": "2025-12-06T08:44:44.226Z",
+      "scheduled_date": "2025-12-11",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-68",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-62",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-785",
+      "status": "cancelled",
+      "booked_at": "2025-11-30T08:44:44.226Z",
+      "scheduled_date": "2025-12-04",
+      "scheduled_time": "10:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-61",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-71",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-483",
+      "status": "no_show",
+      "booked_at": "2025-12-29T08:44:44.226Z",
+      "scheduled_date": "2026-01-02",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": true,
+      "promotion": {
+        "id": "promo-detail-70",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-74",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-349",
+      "status": "cancelled",
+      "booked_at": "2025-12-09T08:44:44.226Z",
+      "scheduled_date": "2025-12-10",
+      "scheduled_time": "18:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-73",
+        "service_name": "Pedikur",
+        "salon_name": "Nafis Style",
+        "salon_id": "salon-4",
+        "original_price": 90000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-77",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-481",
+      "status": "completed",
+      "booked_at": "2025-12-01T08:44:44.226Z",
+      "scheduled_date": "2025-12-02",
+      "scheduled_time": "11:00",
+      "completed_at": "2025-12-02T08:44:44.226Z",
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-76",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": true
+    },
+    {
+      "id": "booking-79",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-555",
+      "status": "scheduled",
+      "booked_at": "2026-02-21T08:44:44.226Z",
+      "scheduled_date": "2026-02-25",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": true,
+      "promotion": {
+        "id": "promo-detail-78",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-83",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-977",
+      "status": "cancelled",
+      "booked_at": "2026-01-20T08:44:44.226Z",
+      "scheduled_date": "2026-01-24",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-82",
+        "service_name": "Massaj",
+        "salon_name": "Relax Center",
+        "salon_id": "salon-6",
+        "original_price": 400000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-91",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-851",
+      "status": "no_show",
+      "booked_at": "2025-12-08T08:44:44.226Z",
+      "scheduled_date": "2025-12-09",
+      "scheduled_time": "15:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-90",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-85",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-951",
+      "status": "completed",
+      "booked_at": "2025-12-03T08:44:44.226Z",
+      "scheduled_date": "2025-12-06",
+      "scheduled_time": "16:00",
+      "completed_at": "2025-12-06T08:44:44.226Z",
+      "is_winner": true,
+      "promotion": {
+        "id": "promo-detail-84",
+        "service_name": "Makiyaj",
+        "salon_name": "Yulduz Vizaj",
+        "salon_id": "salon-5",
+        "original_price": 300000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-92",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-913",
+      "status": "scheduled",
+      "booked_at": "2026-02-13T08:44:44.226Z",
+      "scheduled_date": "2026-02-18",
+      "scheduled_time": "9:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-91",
+        "service_name": "Manikur",
+        "salon_name": "G'uncha Go'zallik",
+        "salon_id": "salon-2",
+        "original_price": 80000,
+        "image_url": null
+      },
+      "has_feedback": false
+    },
+    {
+      "id": "booking-100",
+      "user_id": "current-user-id",
+      "promotion_id": "promo-746",
+      "status": "no_show",
+      "booked_at": "2025-11-24T08:44:44.226Z",
+      "scheduled_date": "2025-11-29",
+      "scheduled_time": "17:00",
+      "completed_at": null,
+      "is_winner": false,
+      "promotion": {
+        "id": "promo-detail-99",
+        "service_name": "Soch Turmaklash",
+        "salon_name": "Oltin Qaychi",
+        "salon_id": "salon-1",
+        "original_price": 150000,
+        "image_url": null
+      },
+      "has_feedback": false
+    }
+  ],
+  "trust_history": [
+    {
+      "id": "hist-fixed-0",
+      "type": "no_show",
+      "date": "2026-01-26",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-1",
+      "type": "usage",
+      "date": "2026-01-24",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Massaj)"
+    },
+    {
+      "id": "hist-fixed-2",
+      "type": "no_show",
+      "date": "2026-01-22",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-3",
+      "type": "no_show",
+      "date": "2026-01-21",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-4",
+      "type": "cancel",
+      "date": "2026-01-21",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-5",
+      "type": "usage",
+      "date": "2026-01-20",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Pedikur)"
+    },
+    {
+      "id": "hist-fixed-6",
+      "type": "review",
+      "date": "2026-01-20",
+      "points": 5,
+      "description": "Ijobiy sharh qoldirish"
+    },
+    {
+      "id": "hist-fixed-7",
+      "type": "no_show",
+      "date": "2026-01-15",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-8",
+      "type": "usage",
+      "date": "2026-01-14",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Manikur)"
+    },
+    {
+      "id": "hist-fixed-9",
+      "type": "review",
+      "date": "2026-01-14",
+      "points": 5,
+      "description": "Ijobiy sharh qoldirish"
+    },
+    {
+      "id": "hist-fixed-10",
+      "type": "usage",
+      "date": "2026-01-13",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Massaj)"
+    },
+    {
+      "id": "hist-fixed-11",
+      "type": "usage",
+      "date": "2026-01-12",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Makiyaj)"
+    },
+    {
+      "id": "hist-fixed-12",
+      "type": "review",
+      "date": "2026-01-12",
+      "points": 5,
+      "description": "Ijobiy sharh qoldirish"
+    },
+    {
+      "id": "hist-fixed-13",
+      "type": "no_show",
+      "date": "2026-01-12",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-14",
+      "type": "usage",
+      "date": "2026-01-11",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Pedikur)"
+    },
+    {
+      "id": "hist-fixed-15",
+      "type": "usage",
+      "date": "2026-01-09",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Soch Turmaklash)"
+    },
+    {
+      "id": "hist-fixed-16",
+      "type": "review",
+      "date": "2026-01-09",
+      "points": 5,
+      "description": "Ijobiy sharh qoldirish"
+    },
+    {
+      "id": "hist-fixed-17",
+      "type": "no_show",
+      "date": "2026-01-07",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-18",
+      "type": "usage",
+      "date": "2026-01-05",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Manikur)"
+    },
+    {
+      "id": "hist-fixed-19",
+      "type": "cancel",
+      "date": "2026-01-03",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-20",
+      "type": "usage",
+      "date": "2026-01-03",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Pedikur)"
+    },
+    {
+      "id": "hist-fixed-21",
+      "type": "usage",
+      "date": "2026-01-03",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Soch Turmaklash)"
+    },
+    {
+      "id": "hist-fixed-22",
+      "type": "usage",
+      "date": "2026-01-03",
+      "points": 10,
+      "description": "Xizmatdan foydalanish (Pedikur)"
+    },
+    {
+      "id": "hist-fixed-23",
+      "type": "no_show",
+      "date": "2026-01-02",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-24",
+      "type": "cancel",
+      "date": "2026-01-01",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-25",
+      "type": "no_show",
+      "date": "2025-12-30",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-26",
+      "type": "cancel",
+      "date": "2025-12-29",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-27",
+      "type": "cancel",
+      "date": "2025-12-26",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-28",
+      "type": "cancel",
+      "date": "2025-12-25",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-29",
+      "type": "cancel",
+      "date": "2025-12-20",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-30",
+      "type": "no_show",
+      "date": "2025-12-19",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-31",
+      "type": "no_show",
+      "date": "2025-12-18",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-32",
+      "type": "no_show",
+      "date": "2025-12-11",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-33",
+      "type": "cancel",
+      "date": "2025-12-11",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-34",
+      "type": "cancel",
+      "date": "2025-12-08",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-35",
+      "type": "no_show",
+      "date": "2025-12-07",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-36",
+      "type": "no_show",
+      "date": "2025-12-03",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-37",
+      "type": "no_show",
+      "date": "2025-12-02",
+      "points": -20,
+      "description": "Kelmaslik (No-show)"
+    },
+    {
+      "id": "hist-fixed-38",
+      "type": "cancel",
+      "date": "2025-11-30",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-fixed-39",
+      "type": "cancel",
+      "date": "2025-11-29",
+      "points": -5,
+      "description": "Buyurtmani bekor qilish"
+    },
+    {
+      "id": "hist-init",
+      "date": "2025-01-01",
+      "points": 50,
+      "description": "Dastlabki ball",
+      "type": "initial"
+    },
+    {
+      "id": "hist-fixed-40",
+      "type": "initial",
+      "date": "2025-01-01",
+      "points": 50,
+      "description": "Dastlabki ball"
+    }
+  ]
+}
