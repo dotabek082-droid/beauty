@@ -14,6 +14,7 @@ interface Profile {
   total_wins: number;
   total_feedbacks: number;
   is_verified: boolean;
+  business_name?: string | null;
   business_description?: string | null;
   working_hours_start?: string | null;
   working_hours_end?: string | null;
@@ -77,6 +78,7 @@ function buildCompatProfile(userData: UserData): Profile {
     total_wins: 5,
     total_feedbacks: 12,
     is_verified: userData.is_active,
+    business_name: "Bunyodkor ko'chasi Beauty",
     first_name: userData.first_name,
     last_name: userData.last_name,
     email: userData.email,

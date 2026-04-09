@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Home, Search, Gift, User, Calendar } from "lucide-react";
+import { Home, CreditCard, Gift, User, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface BusinessBottomNavProps {
@@ -9,7 +9,7 @@ interface BusinessBottomNavProps {
 
 const navItems = [
     { id: "home", icon: Home, label: "Bosh sahifa" },
-    { id: "search", icon: Search, label: "Qidirish" },
+    { id: "payments", icon: CreditCard, label: "To'lovlar" },
     { id: "promotions", icon: Gift, label: "Imtiyozlar" },
     { id: "bookings", icon: Calendar, label: "Buyurtmalar" },
     { id: "profile", icon: User, label: "Profil" },

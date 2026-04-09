@@ -1,288 +1,229 @@
 import { useState } from "react";
-import { CreditCard, Plus, Trash2, Calendar, ArrowUpRight, ArrowDownLeft, Wallet } from "lucide-react";
+import { CreditCard, Plus, Calendar, Search, ArrowDownLeft, Banknote, Gift, ChevronDown, Filter, User } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogFooter,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
-
-interface PaymentCard {
-    id: string;
-    number: string;
-    type: "uzcard" | "humo" | "visa" | "mastercard";
-    expiry: string;
-    holder: string;
-}
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Transaction {
     id: string;
+    clientName: string;
+    serviceName: string;
     amount: number;
     date: string;
-    type: "topup" | "payment";
-    description: string;
-    status: "success" | "pending" | "failed";
+    method: "naqd" | "karta" | "promo";
+    status: "success" | "pending";
 }
 
 const BusinessPayments = () => {
-    const [cards, setCards] = useState<PaymentCard[]>([
-        {
-            id: "1",
-            number: "8600 •••• •••• 1234",
-            type: "uzcard",
-            expiry: "12/28",
-            holder: "BIZNES EGASI",
-        },
-    ]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [activeFilter, setActiveFilter] = useState<"all" | "naqd" | "karta" | "promo">("all");
 
+    // Realistic Mock Data for Client Income
     const [transactions] = useState<Transaction[]>([
         {
             id: "t1",
-            amount: 500000,
-            date: "2024-01-20T10:30:00",
-            type: "topup",
-            description: "Hisobni to'ldirish",
+            clientName: "Sevara Aliyeva",
+            serviceName: "Kechki makiyaj",
+            amount: 250000,
+            date: new Date(Date.now() - 3600000 * 2).toISOString(),
+            method: "karta",
             status: "success",
         },
         {
             id: "t2",
-            amount: -150000,
-            date: "2024-01-18T14:20:00",
-            type: "payment",
-            description: "Premium obuna (1 oy)",
+            clientName: "Lola Karimova",
+            serviceName: "Soch turmaklash",
+            amount: 150000,
+            date: new Date(Date.now() - 3600000 * 5).toISOString(),
+            method: "naqd",
             status: "success",
         },
         {
             id: "t3",
-            amount: -50000,
-            date: "2024-01-15T09:15:00",
-            type: "payment",
-            description: "Reklama xizmati",
+            clientName: "Madina",
+            serviceName: "Manikur (Aksiya)",
+            amount: 0,
+            date: new Date(Date.now() - 86400000).toISOString(),
+            method: "promo",
             status: "success",
+        },
+        {
+            id: "t4",
+            clientName: "Aziza Rahimova",
+            serviceName: "Yuz tozalash",
+            amount: 300000,
+            date: new Date(Date.now() - 86400000 * 1.5).toISOString(),
+            method: "karta",
+            status: "success",
+        },
+        {
+            id: "t5",
+            clientName: "Malika K.",
+            serviceName: "Soch bo'yash",
+            amount: 450000,
+            date: new Date(Date.now() - 86400000 * 2).toISOString(),
+            method: "naqd",
+            status: "pending",
         },
     ]);
 
-    const [isAddCardOpen, setIsAddCardOpen] = useState(false);
-    const [newCard, setNewCard] = useState({ number: "", expiry: "", holder: "" });
+    // Calculate Stats
+    const totalIncome = transactions.reduce((acc, curr) => acc + curr.amount, 0);
+    const cashIncome = transactions.filter(t => t.method === "naqd").reduce((acc, curr) => acc + curr.amount, 0);
+    const cardIncome = transactions.filter(t => t.method === "karta").reduce((acc, curr) => acc + curr.amount, 0);
+    const promoCount = transactions.filter(t => t.method === "promo").length;
 
-    const handleAddCard = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (newCard.number.length < 16) {
-            toast.error("Karta raqami noto'g'ri");
-            return;
-        }
-
-        const cardType = newCard.number.startsWith("8600")
-            ? "uzcard"
-            : newCard.number.startsWith("9860")
-                ? "humo"
-                : "visa";
-
-        const card: PaymentCard = {
-            id: Math.random().toString(),
-            number: `${newCard.number.slice(0, 4)} •••• •••• ${newCard.number.slice(-4)}`,
-            type: cardType as any,
-            expiry: newCard.expiry,
-            holder: newCard.holder.toUpperCase(),
-        };
-
-        setCards([...cards, card]);
-        setNewCard({ number: "", expiry: "", holder: "" });
-        setIsAddCardOpen(false);
-        toast.success("Karta muvaffaqiyatli qo'shildi");
-    };
-
-    const handleDeleteCard = (id: string) => {
-        setCards(cards.filter((c) => c.id !== id));
-        toast.success("Karta o'chirildi");
-    };
+    const filteredTransactions = transactions.filter(t => {
+        const matchesSearch = t.clientName.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                             t.serviceName.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesFilter = activeFilter === "all" || t.method === activeFilter;
+        return matchesSearch && matchesFilter;
+    });
 
     const formatAmount = (amount: number) => {
-        return Math.abs(amount).toLocaleString('ru-RU') + " so'm";
+        return amount.toLocaleString('ru-RU') + " so'm";
+    };
+
+    const getMethodIcon = (method: string) => {
+        switch (method) {
+            case "naqd": return <Banknote className="w-3 h-3 text-emerald-500" />;
+            case "karta": return <CreditCard className="w-3 h-3 text-blue-500" />;
+            case "promo": return <Gift className="w-3 h-3 text-purple-500" />;
+            default: return null;
+        }
     };
 
     return (
-        <div className="space-y-6">
-            <Tabs defaultValue="cards" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="cards" className="flex items-center gap-2">
-                        <CreditCard className="w-4 h-4" />
-                        Mening Kartalarim
-                    </TabsTrigger>
-                    <TabsTrigger value="history" className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        To'lovlar Tarixi
-                    </TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="cards" className="mt-6 space-y-4">
-                    <div className="grid gap-4">
-                        {cards.map((card) => (
-                            <Card
-                                key={card.id}
-                                className={`p-6 relative overflow-hidden ${card.type === "uzcard"
-                                    ? "bg-gradient-to-br from-blue-600 to-blue-800"
-                                    : card.type === "humo"
-                                        ? "bg-gradient-to-br from-orange-400 to-orange-600"
-                                        : "bg-gradient-to-br from-slate-700 to-slate-900"
-                                    } text-white border-0 shadow-lg`}
-                            >
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
-
-                                <div className="relative z-10">
-                                    <div className="flex justify-between items-start mb-8">
-                                        <CreditCard className="w-8 h-8 opacity-80" />
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="text-white/70 hover:text-white hover:bg-white/20"
-                                            onClick={() => handleDeleteCard(card.id)}
-                                        >
-                                            <Trash2 className="w-5 h-5" />
-                                        </Button>
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <p className="text-2xl font-mono tracking-wider">{card.number}</p>
-                                        <div className="flex justify-between items-end">
-                                            <div>
-                                                <p className="text-xs text-white/70 uppercase mb-1">Karta egasi</p>
-                                                <p className="font-medium tracking-wide">{card.holder}</p>
-                                            </div>
-                                            <div className="text-right">
-                                                <p className="text-xs text-white/70 uppercase mb-1">Amal qilish</p>
-                                                <p className="font-medium tracking-wide">{card.expiry}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card>
-                        ))}
-
-                        <Dialog open={isAddCardOpen} onOpenChange={setIsAddCardOpen}>
-                            <DialogTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    className="h-32 border-dashed border-2 flex flex-col gap-2 hover:border-primary hover:text-primary transition-colors"
-                                >
-                                    <Plus className="w-8 h-8" />
-                                    <span>Yangi karta qo'shish</span>
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>Yangi karta qo'shish</DialogTitle>
-                                </DialogHeader>
-                                <form onSubmit={handleAddCard} className="space-y-4 mt-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="number">Karta raqami</Label>
-                                        <Input
-                                            id="number"
-                                            placeholder="8600 0000 0000 0000"
-                                            maxLength={16}
-                                            value={newCard.number}
-                                            onChange={(e) =>
-                                                setNewCard({ ...newCard, number: e.target.value.replace(/\D/g, "") })
-                                            }
-                                            required
-                                        />
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="expiry">Amal qilish muddati</Label>
-                                            <Input
-                                                id="expiry"
-                                                placeholder="MM/YY"
-                                                maxLength={5}
-                                                value={newCard.expiry}
-                                                onChange={(e) => setNewCard({ ...newCard, expiry: e.target.value })}
-                                                required
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="holder">Karta egasi</Label>
-                                            <Input
-                                                id="holder"
-                                                placeholder="ISM FAMILIYA"
-                                                value={newCard.holder}
-                                                onChange={(e) => setNewCard({ ...newCard, holder: e.target.value })}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                    <DialogFooter>
-                                        <Button type="submit" className="w-full">
-                                            Qo'shish
-                                        </Button>
-                                    </DialogFooter>
-                                </form>
-                            </DialogContent>
-                        </Dialog>
+        <div className="space-y-6 pb-20">
+            {/* Stats Overview */}
+            <div className="grid grid-cols-2 gap-3">
+                <Card className="p-3 border-none shadow-sm bg-indigo-600 text-white col-span-2">
+                    <p className="text-[10px] font-bold uppercase opacity-80 mb-1">Jami Tushum</p>
+                    <h2 className="text-2xl font-black tracking-tight">{formatAmount(totalIncome)}</h2>
+                </Card>
+                <Card className="p-3 border-none shadow-sm bg-white dark:bg-gray-900">
+                    <div className="flex items-center gap-1.5 mb-1">
+                        <Banknote className="w-3 h-3 text-emerald-500" />
+                        <p className="text-[10px] font-bold uppercase text-gray-500">Naqd</p>
                     </div>
-                </TabsContent>
+                    <h3 className="text-sm font-black">{formatAmount(cashIncome)}</h3>
+                </Card>
+                <Card className="p-3 border-none shadow-sm bg-white dark:bg-gray-900">
+                    <div className="flex items-center gap-1.5 mb-1">
+                        <CreditCard className="w-3 h-3 text-blue-500" />
+                        <p className="text-[10px] font-bold uppercase text-gray-500">Karta</p>
+                    </div>
+                    <h3 className="text-sm font-black">{formatAmount(cardIncome)}</h3>
+                </Card>
+                <Card className="p-3 border-none shadow-sm bg-white dark:bg-gray-900 col-span-2">
+                    <div className="flex items-center gap-1.5 mb-1">
+                        <Gift className="w-3 h-3 text-purple-500" />
+                        <p className="text-[10px] font-bold uppercase text-gray-500">Promo / Bonus</p>
+                    </div>
+                    <h3 className="text-sm font-black">{promoCount} ta xizmat</h3>
+                </Card>
+            </div>
 
-                <TabsContent value="history" className="mt-6">
-                    <div className="space-y-3">
-                        {transactions.map((transaction) => (
-                            <Card key={transaction.id} className="p-4 flex items-center justify-between hover:bg-muted/50 transition-colors">
-                                <div className="flex items-center gap-4">
-                                    <div
-                                        className={`p-3 rounded-full ${transaction.type === "topup"
-                                            ? "bg-green-100 text-green-600"
-                                            : "bg-orange-100 text-orange-600"
-                                            }`}
-                                    >
-                                        {transaction.type === "topup" ? (
-                                            <ArrowDownLeft className="w-5 h-5" />
-                                        ) : (
-                                            <ArrowUpRight className="w-5 h-5" />
-                                        )}
+            {/* Actions Row */}
+            <div className="space-y-3">
+                <Button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold h-11 rounded-xl shadow-lg shadow-emerald-500/20">
+                    <Plus className="w-4 h-4 mr-2" />
+                    To'lov qo'shish
+                </Button>
+
+                <div className="flex gap-2">
+                    <div className="relative flex-1">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <Input 
+                            placeholder="Qidirish..." 
+                            className="pl-9 h-11 bg-white border-none shadow-sm rounded-xl text-sm"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="h-11 px-3 bg-white border-none shadow-sm rounded-xl">
+                                <Calendar className="w-4 h-4 mr-2 text-indigo-500" />
+                                <span className="text-sm font-medium">Bu oy</span>
+                                <ChevronDown className="w-3 h-3 ml-1 opacity-50" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem>Bugun</DropdownMenuItem>
+                            <DropdownMenuItem>Shu hafta</DropdownMenuItem>
+                            <DropdownMenuItem>Bu oy</DropdownMenuItem>
+                            <DropdownMenuItem>Barchasi</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            </div>
+
+            {/* Filter Tabs */}
+            <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                {[
+                    { id: "all", label: "Barchasi" },
+                    { id: "naqd", label: "Naqd" },
+                    { id: "karta", label: "Karta" },
+                    { id: "promo", label: "Promo" }
+                ].map((item) => (
+                    <button
+                        key={item.id}
+                        onClick={() => setActiveFilter(item.id as any)}
+                        className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap ${
+                            activeFilter === item.id 
+                            ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/20" 
+                            : "bg-white text-gray-500 hover:bg-gray-50 shadow-sm"
+                        }`}
+                    >
+                        {item.label}
+                    </button>
+                ))}
+            </div>
+
+            {/* Transaction List */}
+            <div className="space-y-3">
+                <h3 className="text-sm font-bold text-gray-900 px-1">Tushumlar Tarixi</h3>
+                {filteredTransactions.length > 0 ? (
+                    filteredTransactions.map((t) => (
+                        <Card key={t.id} className="p-3 border-none shadow-sm bg-white dark:bg-gray-900 group">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-indigo-600">
+                                        <User className="w-5 h-5 opacity-40" />
                                     </div>
                                     <div>
-                                        <h4 className="font-semibold">{transaction.description}</h4>
-                                        <p className="text-xs text-muted-foreground">
-                                            {new Date(transaction.date).toLocaleDateString("uz-UZ", {
-                                                day: "numeric",
-                                                month: "long",
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                            })}
-                                        </p>
+                                        <h4 className="text-sm font-bold text-gray-900 dark:text-white leading-tight">{t.clientName}</h4>
+                                        <p className="text-[10px] text-gray-400 font-medium">{t.serviceName}</p>
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <p
-                                        className={`font-bold ${transaction.type === "topup" ? "text-green-600" : "text-foreground"
-                                            }`}
-                                    >
-                                        {transaction.type === "topup" ? "+" : ""}
-                                        {formatAmount(transaction.amount)}
-                                    </p>
-                                    <Badge
-                                        className="text-[10px]"
-                                        variant={transaction.status === "success" ? "secondary" : "outline"}
-                                    >
-                                        {transaction.status === "success"
-                                            ? "Muvaffaqiyatli"
-                                            : transaction.status === "pending"
-                                                ? "Jarayonda"
-                                                : "Bekor qilindi"}
-                                    </Badge>
+                                    <p className="text-sm font-black text-gray-900 dark:text-white">{t.amount === 0 ? "Bonus" : formatAmount(t.amount)}</p>
+                                    <div className="flex items-center justify-end gap-1.5 mt-0.5">
+                                        <div className="flex items-center gap-1">
+                                            {getMethodIcon(t.method)}
+                                            <span className="text-[9px] font-bold text-gray-400 uppercase">{t.method}</span>
+                                        </div>
+                                        <div className={`w-1 h-1 rounded-full ${t.status === "success" ? "bg-emerald-500" : "bg-amber-500"}`} />
+                                    </div>
                                 </div>
-                            </Card>
-                        ))}
+                            </div>
+                        </Card>
+                    ))
+                ) : (
+                    <div className="py-12 text-center bg-white/50 rounded-2xl border border-dashed border-gray-200">
+                        <ArrowDownLeft className="w-8 h-8 text-gray-300 mx-auto mb-2 opacity-20" />
+                        <p className="text-sm text-gray-400 font-medium">Afsuski, hech narsa topilmadi</p>
                     </div>
-                </TabsContent>
-            </Tabs>
+                )}
+            </div>
         </div>
     );
 };

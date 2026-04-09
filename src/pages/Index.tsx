@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import HomeContent from "@/components/HomeContent";
 import BottomNav from "@/components/BottomNav";
 import { clearAndReseedReviews } from "@/data/reviewSeedData";
@@ -7,7 +8,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
 const Index = () => {
-  const { user } = useAuth();
+  const { user, isRole } = useAuth();
+  const isBusinessOwner = isRole("business_owner");
 
   useEffect(() => {
     // FORCE reseed on every load to ensure reviews appear
@@ -27,6 +29,10 @@ const Index = () => {
       }
     }
   }, [user?.id]);
+
+  if (isBusinessOwner) {
+    return <Navigate to="/business" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-warm">

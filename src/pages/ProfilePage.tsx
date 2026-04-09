@@ -78,28 +78,16 @@ const ProfilePage = () => {
     } else if (isBusinessOwner) {
       return [
         {
-          title: "Biznes",
-          items: [
-            { icon: Users, label: "Foydalanuvchilar", badge: "5", path: "/business/clients" },
-            { icon: QrCode, label: "QR Skaner", badge: null, path: "/business/scan-qr" },
-            { icon: Briefcase, label: "Xizmatlar", badge: null, path: "/business/services" },
-          ]
-        },
-        {
           title: "Faoliyatim",
           items: [
-            { icon: Calendar, label: "Yozuvlarim", badge: "2", path: "/business/bookings" },
-            { icon: Gift, label: "Aksiyalarim", badge: "1", path: "/business/promotions" },
+            { icon: Briefcase, label: "Xizmatlar", badge: null, path: "/business/services" },
             { icon: TrendingUp, label: "Reklama va TOP", badge: null, path: "/business/promote" },
-            { icon: Ticket, label: "Promokodlarim", badge: activePromocodesCount, path: "/profile/promocodes" },
-            { icon: Star, label: "Sharhlarim", badge: "3", path: "/business/reviews" },
             { icon: Shield, label: "Ishonch tarixi", badge: null, path: "/profile/trust-history" },
           ]
         },
         {
           title: "Moliya",
           items: [
-            { icon: TrendingUp, label: "Tushumlar tarixi", badge: null, path: "/business/service-payments" },
             { icon: CreditCard, label: "To'lov usullari", badge: null, path: "/profile/payments" },
             { icon: Coins, label: "Tangalar", badge: null, path: "/profile/coins" },
             { icon: Crown, label: "Biznes Obunasi", badge: "Pro", path: "/business/dashboard?tab=subscription" },
@@ -290,94 +278,6 @@ const ProfilePage = () => {
         </motion.div>
       </div>
 
-      {/* Business Dashboard Statistics - Only for Business Owners */}
-      {
-        isBusinessOwner && (
-          <div className="px-4 mb-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <div className="mb-2">
-                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Dashboard</h3>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {/* Bookings Card */}
-                <Card
-                  className="p-3 cursor-pointer hover:shadow-md transition-shadow bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-900/10 border-blue-200 dark:border-blue-800"
-                  onClick={() => navigate('/business/bookings')}
-                >
-                  <div className="flex flex-col">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <Calendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                      <ChevronRight className="w-3.5 h-3.5 text-blue-600/50 dark:text-blue-400/50" />
-                    </div>
-                    <div className="space-y-0.5">
-                      <p className="text-xl font-bold text-blue-900 dark:text-blue-100">12</p>
-                      <p className="text-xs font-medium text-blue-700 dark:text-blue-300">Buyurtmalar</p>
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Promotions Card */}
-                <Card
-                  className="p-3 cursor-pointer hover:shadow-md transition-shadow bg-gradient-to-br from-purple-50 to-purple-100/50 dark:from-purple-950/20 dark:to-purple-900/10 border-purple-200 dark:border-purple-800"
-                  onClick={() => navigate('/business/promotions')}
-                >
-                  <div className="flex flex-col">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <Gift className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                      <ChevronRight className="w-3.5 h-3.5 text-purple-600/50 dark:text-purple-400/50" />
-                    </div>
-                    <div className="space-y-0.5">
-                      <p className="text-xl font-bold text-purple-900 dark:text-purple-100">5</p>
-                      <p className="text-xs font-medium text-purple-700 dark:text-purple-300">Aksiyalar</p>
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Reviews Card */}
-                <Card
-                  className="p-3 cursor-pointer hover:shadow-md transition-shadow bg-gradient-to-br from-amber-50 to-amber-100/50 dark:from-amber-950/20 dark:to-amber-900/10 border-amber-200 dark:border-amber-800"
-                  onClick={() => navigate('/business/reviews')}
-                >
-                  <div className="flex flex-col">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <Star className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                      <ChevronRight className="w-3.5 h-3.5 text-amber-600/50 dark:text-amber-400/50" />
-                    </div>
-                    <div className="space-y-0.5">
-                      <div className="flex items-baseline gap-1">
-                        <p className="text-xl font-bold text-amber-900 dark:text-amber-100">4.8</p>
-                        <Star className="w-3 h-3 fill-amber-500 text-amber-500" />
-                      </div>
-                      <p className="text-xs font-medium text-amber-700 dark:text-amber-300">Sharhlar</p>
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Coins Card */}
-                <Card
-                  className="p-3 cursor-pointer hover:shadow-md transition-shadow bg-gradient-to-br from-orange-50 to-orange-100/50 dark:from-orange-950/20 dark:to-orange-900/10 border-orange-200 dark:border-orange-800"
-                  onClick={() => navigate('/profile/coins')}
-                >
-                  <div className="flex flex-col">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <Coins className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-                      <ChevronRight className="w-3.5 h-3.5 text-orange-600/50 dark:text-orange-400/50" />
-                    </div>
-                    <div className="space-y-0.5">
-                      <p className="text-xl font-bold text-orange-900 dark:text-orange-100">{user ? getCoinBalance(user.id) : 0}</p>
-                      <p className="text-xs font-medium text-orange-700 dark:text-orange-300">Tangalar</p>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </motion.div>
-          </div>
-        )
-      }
 
       {/* Coin Balance Card - For Clients Only */}
       {

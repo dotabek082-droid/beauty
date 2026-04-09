@@ -37,6 +37,7 @@ import BusinessPayments from "@/components/business/BusinessPayments";
 import BusinessTrust from "@/components/business/BusinessTrust";
 import BusinessBookings from "@/components/business/BusinessBookings";
 import BusinessInbox from "@/components/business/BusinessInbox";
+import { BusinessAnalyticsHome } from "@/components/business/BusinessAnalyticsHome";
 import { MOCK_SERVICES } from "@/data/mockServices";
 import { Service } from "@/types/service";
 
@@ -126,10 +127,16 @@ const BusinessDashboard = () => {
     }
   }, [user, navigate]);
 
-  // Handle search tab navigation
+  // Handle navigation for specific tabs
   useEffect(() => {
-    if (activeTab === "search") {
-      navigate("/search");
+    if (activeTab === "clients") {
+      navigate("/business/clients");
+    } else if (activeTab === "reviews") {
+      navigate("/business/reviews");
+    } else if (activeTab === "wallet") {
+      navigate("/profile/coins");
+    } else if (activeTab === "scan-qr") {
+      navigate("/business/scan-qr");
     }
   }, [activeTab, navigate]);
 
@@ -300,8 +307,12 @@ const BusinessDashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-warm pb-24">
       <SystemNews />
+
       {activeTab === "home" && (
-        <HomeContent onProfileClick={() => setActiveTab("profile")} />
+        <BusinessAnalyticsHome 
+           onProfileClick={() => setActiveTab("profile")} 
+           onTabChange={setActiveTab} 
+        />
       )}
 
       {activeTab === "services" && (
