@@ -43,6 +43,13 @@ import AdminSubscriptions from "./pages/admin/AdminSubscriptions";
 import AdminPaymentHistory from "./pages/admin/AdminPaymentHistory";
 import AdminPromoUsage from "./pages/admin/AdminPromoUsage";
 import AdminNewsPage from "./pages/AdminNewsPage";
+import AdminServicesPage from "./pages/AdminServicesPage";
+import AdminRegionsPage from "./pages/admin/AdminRegionsPage";
+import AdminDistrictsPage from "./pages/admin/AdminDistrictsPage";
+import AdminStreetsPage from "./pages/admin/AdminStreetsPage";
+import AdminCategoriesPage from "./pages/admin/AdminCategoriesPage";
+import AdminPermissionsPage from "./pages/admin/AdminPermissionsPage";
+import AdminLoginHistoryPage from "./pages/admin/AdminLoginHistoryPage";
 import AdminLayout from "./components/layout/AdminLayout";
 import NotFound from "./pages/NotFound";
 import BusinessBookingsPage from "./pages/BusinessBookingsPage";
@@ -85,9 +92,11 @@ const AppContent = () => {
     ? "w-full"
     : "max-w-md w-full";
 
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
     <div className={`mx-auto bg-background min-h-screen relative shadow-2xl ${containerClass}`}>
-      {isAdmin && <DesktopNav />}
+      {isAdmin && !isAdminRoute && <DesktopNav />}
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/landing" element={<LandingPage />} />
@@ -125,6 +134,13 @@ const AppContent = () => {
           <Route path="/admin/payments" element={<AdminPaymentHistory />} />
           <Route path="/admin/promo-usage" element={<AdminPromoUsage />} />
           <Route path="/admin/news" element={<AdminNewsPage />} />
+          <Route path="/admin/services" element={<AdminServicesPage />} />
+          <Route path="/admin/regions" element={<AdminRegionsPage />} />
+          <Route path="/admin/districts" element={<AdminDistrictsPage />} />
+          <Route path="/admin/streets" element={<AdminStreetsPage />} />
+          <Route path="/admin/categories" element={<AdminCategoriesPage />} />
+          <Route path="/admin/permissions" element={<AdminPermissionsPage />} />
+          <Route path="/admin/login-history" element={<AdminLoginHistoryPage />} />
         </Route>
         <Route path="/business" element={<BusinessDashboard />} />
         <Route path="/business/dashboard" element={<BusinessDashboard />} />

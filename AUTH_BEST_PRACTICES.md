@@ -22,13 +22,13 @@
    - Kod to'g'ri bo'lsa, vaqtinchalik xotiradagi (Redis) ma'lumotlar olinib, Asosiy DB `Users` jadvaliga saqlanadi va unga tizimga kirish uchun JWT Tokenlar beriladi.
 
 ### Ssenariy B: Biznes Egasining ro'yxatdan o'tishi va Tasdiqlanishi (Approval Flow)
-1. **1-bosqich (Kengaytirilgan ma'lumotlar)**: Biznes egasi ro'yxatdan o'tish uchun o'zining asosiy ma'lumotlarini (`Telefon raqam`, `Parol`), hamda biznesi haqidagi boshlang'ich ma'lumotlarni (`Kategoriya`, `Biznes Nomi`, `Manzil`) Frontend da kiritadi va Yuborish tugmasini bosadi.
+1. **1-bosqich (Kengaytirilgan ma'lumotlar)**: Biznes egasi ro'yxatdan o'tish uchun o'zining asosiy ma'lumotlarini (`Telefon raqam`, `Parol`), hamda biznesi haqidagi boshlang'ich ma'lumotlarni (`Kategoriya main`, `Kategoriya sub`, `Biznes Nomi`, `Manzil`) Frontend da kiritadi va Yuborish tugmasini bosadi.
 2. **Backend va SMS qismi**: Jarayon xuddi Mijozniki kabi davom etadi. Kod vaqtinchalik xotirada ushlanib, foydalanuvchiga 6 xonali SMS yuboriladi.
 3. **SMS Kodini Tekshirish**: Biznes egasi kodni tasdiqlagach, u Asosiy bazaga yoziladi (`Users` va `Businesses` jadvallari). 
 4. **Kutilish holati (Pending Status)**: OTP tasdiqdan o'tib tizim bazasiga yozilgan biznesning boshlang'ich statusi darhol **"Kutilmoqda" (WAITING/PENDING)** bo'ladi.
    - U platformada aktiv hizmat ko'rsatuvchi sifatida ko'rinmaydi. Mijozlar qidiruvida chiqmaydi.
 5. **Portfolioni to'ldirish va Aktivlashtirish**: 
-   - Biznes egasi endi shaxsiy kabinetiga (Profiliga) kirib huddi "Qorlama" shaklida turgan biznesiga yangi rasmlar, to'liq ish vaqti, ustalar va xizmatlarni qo'shib to'ldiradi.
+   - Biznes egasi endi shaxsiy kabinetiga (Profiliga) kirib huddi "Qorlama" shaklida turgan biznesiga yangi rasmlar, to'liq ish vaqti, qulayliklar va xizmatlarni qo'shib to'ldiradi.
    - Hamma joyi sozlangach "Adminga Tasdiqlash uchun yuborish" tugmasini bosadi.
    - **Admin boshqaruv paneli (Admin panel)** orqali biznesni ko'rib chiqib "Tasdiqlash" tugmasini bossagina, biznesning joriy holati **"Aktiv" (ACTIVE)** ga o'zgaradi va hamma unga bron qilishni boshlay oladi.
 
@@ -39,9 +39,6 @@
 1. Foydalanuvchi `Telefon raqam` va `Parol` ni kiritadi.
 2. API ga (parol bilan) login so'rovi yuboriladi. Login qilishda hech qanday qimmat pullik SMS yuborish shart emas! Tizim parolni hash bilan solishtirib to'g'ri bo'lsa kirgizib yuboradi.
 
-### Ssenariy D: Parolni Tiklash (Forgot Password)
-1. Kirish oynasidan foydalanuvchi o'z raqamini terib "Yangi parol olish" ni bosadi.
-2. Backend raqam bazada bor-yo'qligini aniqlab unga vaqtinchalik parol (yoki parolni o'zgartirish ruxsatnomasi - OTP) yuboradi va tizimdan avvalgi sessiyalarni bekor qiladi.
 
 ---
 
@@ -50,7 +47,7 @@
 > [!TIP]
 > Foydalanuvchi oynasi tez, tushunarli bo'lishi lozim. Qanchalik kam asabni buzadigan bo'lsa shunchalik platformaga kirishlar soni oshadi.
 
-- **Parolni kiritish**: Mobil ilova/saytlarda ekran torligi uchun "Parolni tasdiqlang" (Confirm password) alohida maydon o'rniga, Parolning o'ng chetida ko'z belgisi (`Show/Hide Password`) joylashtirilgan bo'lishi maqsadga muvofiq va bu amalga oshirildi.
+
 - **Raqam niqobi (Mask)**: Telefon kiritish faqat bitta standartda o'tishi (`+998 XX XXX XX XX`) doim kontrol qilinishi va faqat raqamli kalitlar bilan yuborilishi (`998901234567`) shart.
 - **Xatoliklar**: `Parol noto'g'ri` yoki `Bunday foydalanuvchi mavjud emas` degan matnlar serverdan doim izoh formatida kelishi va alert o'rniga zamonaviy Toast/Snackbar orqali ko'rsatilishi kerak.
 
@@ -91,7 +88,7 @@ sequenceDiagram
         Backend-->>Frontend: 409 Conflict (Raqam band qilingan)
     else Yangi foydalanuvchi
         Backend->>Backend: OTP (6 xonali) yig'ish + Parolni Hash-lash
-        Backend->>Redis_Xotirasi: Hamma ma'lumotni va OTP ni 3 daqiqa saqlab tur
+        Backend->>Redis_Xotirasi: Hamma ma'lumotni va OTP ni 2 daqiqa saqlab tur
         Backend->>Backend: SMS API orgali SMS Jo'natish
         Backend-->>Frontend: 200 OK (Muvaffaqiyatli SMS OTP holatiga o't)
         

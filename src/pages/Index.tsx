@@ -30,6 +30,12 @@ const Index = () => {
     }
   }, [user?.id]);
 
+  const isAdmin = isRole("admin");
+
+  if (isAdmin) {
+    return <Navigate to="/admin" replace />;
+  }
+
   if (isBusinessOwner) {
     return <Navigate to="/business" replace />;
   }
