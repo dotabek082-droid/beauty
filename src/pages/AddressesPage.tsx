@@ -28,6 +28,10 @@ interface Address {
   isDefault: boolean;
   lat?: number;
   lng?: number;
+  regionId?: string;
+  districtId?: string;
+  streetId?: string;
+  homeNumber?: string;
 }
 
 const initialAddresses: Address[] = [
@@ -35,11 +39,15 @@ const initialAddresses: Address[] = [
     id: "1",
     label: "Asosiy",
     type: "home",
-    address: "Toshkent sh., Chilonzor tumani, 10-mavze, 25-uy, 42-xonadon",
+    address: "Toshkent shahri, Chilonzor, Bunyodkor ko'chasi, 25-uy",
     landmark: "Metro Chilonzor yaqinida",
     isDefault: true,
     lat: 41.2858,
-    lng: 69.2040 // Mock Chilonzor coords
+    lng: 69.2040,
+    regionId: "1",
+    districtId: "2",
+    streetId: "1",
+    homeNumber: "25",
   },
 ];
 

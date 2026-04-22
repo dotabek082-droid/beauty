@@ -60,7 +60,7 @@ const businessSchema = z.object({
     services: z.array(z.object({
         name: z.string(),
         price: z.coerce.number().min(0, "Narx manfiy bo'lmasligi kerak"),
-    })).min(1, "Kamida bitta xizmat va uning narxini belgilang"),
+    })).optional(),
 
     // Step 3: Location
     location: z.object({
@@ -530,118 +530,7 @@ const BusinessRegistrationForm = ({ userId, onComplete, editMode = false, initia
                     )} />
                 )}
 
-                {/* Specializations Selection */}
-                {selectedCategory && formData.subcategory && (
-                    <div className="space-y-4 animate-in fade-in slide-in-from-top-2">
-                        <div className="space-y-3">
-                            <FormLabel>Xizmatlarni Tanlang</FormLabel>
-                            <div className="flex flex-wrap gap-2">
-                                {(() => {
-                                    const sub = selectedCategory.subcategories.find(s => s.id === formData.subcategory);
-                                    const availableSpecs = (sub as any)?.specializations || [];
 
-                                    if (availableSpecs.length === 0) {
-                                        return <p className="text-sm text-muted-foreground w-full">Bu yo'nalish uchun maxsus xizmatlar topilmadi. Quyida o'z xizmatlaringizni qo'shishingiz mumkin.</p>;
-                                    }
-
-                                    return availableSpecs.map((spec: string) => {
-                                        const isSelected = formData.services?.some(s => s.name === spec);
-                                        return (
-                                            <div
-                                                key={spec}
-                                                onClick={() => {
-                                                    const current = formData.services || [];
-                                                    if (isSelected) {
-                                                        setValue("services", current.filter(s => s.name !== spec));
-                                                    } else {
-                                                        setValue("services", [...current, { name: spec, price: 0 }]);
-                                                    }
-                                                }}
-                                                className={`px-3 py-1.5 rounded-full text-sm cursor-pointer transition-all border ${isSelected
-                                                    ? "bg-primary text-primary-foreground border-primary"
-                                                    : "bg-background hover:bg-muted border-input"
-                                                    }`}
-                                            >
-                                                {spec}
-                                            </div>
-                                        );
-                                    });
-                                })()}
-                            </div>
-                        </div>
-
-                        {/* Price Inputs for Selected Services */}
-                        {formData.services && formData.services.length > 0 && (
-                            <div className="space-y-3 pt-2 border-t">
-                                <FormLabel>Narxlarni Belgilang (so'm)</FormLabel>
-                                <div className="grid gap-3">
-                                    {formData.services.map((service, index) => (
-                                        <div key={index} className="flex items-center gap-3 p-3 bg-card border rounded-lg shadow-sm">
-                                            <span className="flex-1 font-medium text-sm">{service.name}</span>
-                                            <div className="flex items-center gap-2 w-[180px]">
-                                                <Input
-                                                    type="number"
-                                                    placeholder="Narx"
-                                                    className="h-9 text-right"
-                                                    value={service.price || ''}
-                                                    onChange={(e) => {
-                                                        const newServices = [...formData.services];
-                                                        newServices[index].price = Number(e.target.value);
-                                                        setValue("services", newServices);
-                                                    }}
-                                                />
-                                                <span className="text-xs text-muted-foreground">so'm</span>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                <FormMessage>{errors.services?.message}</FormMessage>
-                            </div>
-                        )}
-
-                        {/* Custom Service Input */}
-                        <div className="flex items-center gap-2 mt-2">
-                            <Input
-                                placeholder="Boshqa xizmat turi... (qo'shish uchun yozing)"
-                                value={customServiceName}
-                                onChange={(e) => setCustomServiceName(e.target.value)}
-                                className="h-9 text-sm"
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
-                                        if (customServiceName.trim()) {
-                                            const current = formData.services || [];
-                                            if (!current.some(s => s.name.toLowerCase() === customServiceName.trim().toLowerCase())) {
-                                                setValue("services", [...current, { name: customServiceName.trim(), price: 0 }]);
-                                                setCustomServiceName("");
-                                            } else {
-                                                toast({ title: "Diqqat", description: "Bu xizmat allaqachon qo'shilgan" });
-                                            }
-                                        }
-                                    }
-                                }}
-                            />
-                            <Button
-                                type="button"
-                                variant="outline"
-                                size="sm"
-                                onClick={() => {
-                                    if (customServiceName.trim()) {
-                                        const current = formData.services || [];
-                                        if (!current.some(s => s.name.toLowerCase() === customServiceName.trim().toLowerCase())) {
-                                            setValue("services", [...current, { name: customServiceName.trim(), price: 0 }]);
-                                            setCustomServiceName("");
-                                        } else {
-                                            toast({ title: "Diqqat", description: "Bu xizmat allaqachon qo'shilgan" });
-                                        }
-                                    }
-                                }}
-                            >
-                                Qo'shish
-                            </Button>
-                        </div>
-                    </div>
-                )}
 
                 {/* Visual feedback for selected category */}
                 {selectedCategory && (
@@ -654,11 +543,7 @@ const BusinessRegistrationForm = ({ userId, onComplete, editMode = false, initia
                                     ? selectedCategory.subcategories.find(s => s.id === formData.subcategory)?.label
                                     : "Yo'nalishni tanlang..."}
                             </p>
-                            {formData.services && formData.services.length > 0 && (
-                                <p className="text-xs text-muted-foreground mt-1">
-                                    {formData.services.length} ta xizmat tanlangan
-                                </p>
-                            )}
+
                         </div>
                     </div>
                 )}
