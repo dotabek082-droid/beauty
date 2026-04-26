@@ -55,15 +55,30 @@ const EditBusinessProfilePage = () => {
                     category: category,
                     subcategory: subcategory,
                     services: profileData.services || [],
-                    location: profileData.location || {
-                        lat: 41.2995,
-                        lng: 69.2401,
-                        region: "",
-                        district: "",
-                        address_line1: "",
-                        address_line2: "",
-                        postal_code: ""
-                    },
+                    location: (() => {
+                        const loc = profileData.location;
+                        if (!loc) return {
+                            lat: 41.2995,
+                            lng: 69.2401,
+                            regionId: "",
+                            districtId: "",
+                            streetId: "",
+                            homeNumber: "",
+                            type: "work" as const,
+                            isDefault: true,
+                        };
+                        // Support both old and new format
+                        return {
+                            lat: loc.lat || 41.2995,
+                            lng: loc.lng || 69.2401,
+                            regionId: loc.regionId || "",
+                            districtId: loc.districtId || "",
+                            streetId: loc.streetId || "",
+                            homeNumber: loc.homeNumber || "",
+                            type: loc.type || "work",
+                            isDefault: loc.isDefault !== undefined ? loc.isDefault : true,
+                        };
+                    })(),
                     hours: profileData.hours || defaultHours,
                     amenities: [],
                     gallery: [],

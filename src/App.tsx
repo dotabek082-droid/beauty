@@ -50,6 +50,7 @@ import AdminStreetsPage from "./pages/admin/AdminStreetsPage";
 import AdminCategoriesPage from "./pages/admin/AdminCategoriesPage";
 import AdminPermissionsPage from "./pages/admin/AdminPermissionsPage";
 import AdminLoginHistoryPage from "./pages/admin/AdminLoginHistoryPage";
+import AdminBlockedBusinessesPage from "./pages/admin/AdminBlockedBusinessesPage";
 import AdminLayout from "./components/layout/AdminLayout";
 import NotFound from "./pages/NotFound";
 import BusinessBookingsPage from "./pages/BusinessBookingsPage";
@@ -141,6 +142,7 @@ const AppContent = () => {
           <Route path="/admin/categories" element={<AdminCategoriesPage />} />
           <Route path="/admin/permissions" element={<AdminPermissionsPage />} />
           <Route path="/admin/login-history" element={<AdminLoginHistoryPage />} />
+          <Route path="/admin/blocked-businesses" element={<AdminBlockedBusinessesPage />} />
         </Route>
         <Route path="/business" element={<BusinessDashboard />} />
         <Route path="/business/dashboard" element={<BusinessDashboard />} />

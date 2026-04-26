@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion, AnimatePresence } from "framer-motion";
-import { LocationPicker } from "@/components/business/LocationPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 import {
     Phone, Store, Upload, Loader2, MapPin, CheckSquare,
     Wifi, CreditCard, Car, Accessibility, ArrowRight,
-    ArrowLeft, Clock, Camera, CheckCircle2, AlertCircle
+    ArrowLeft, Clock, Camera, CheckCircle2, AlertCircle,
+    Navigation, Home, Briefcase
 } from "lucide-react";
 import {
     Select,
@@ -36,7 +39,37 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { BUSINESS_CATEGORIES } from "@/data/businessCategories";
-import { REGIONS, DISTRICTS } from "@/data/locations";
+import { REGIONS, DISTRICTS, STREETS, getDistrictsByRegion, getStreetsByDistrict } from "@/data/locations";
+
+// Fix Leaflet marker icon issue
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+    iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+    shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+});
+
+const MapController = ({
+    center,
+    onLocationSelect
+}: {
+    center: [number, number],
+    onLocationSelect: (lat: number, lng: number) => void
+}) => {
+    const map = useMap();
+
+    useEffect(() => {
+        map.flyTo(center, map.getZoom());
+    }, [center, map]);
+
+    useMapEvents({
+        click(e) {
+            onLocationSelect(e.latlng.lat, e.latlng.lng);
+        },
+    });
+
+    return null;
+};
 
 // --- Zod Schemas ---
 
@@ -66,11 +99,12 @@ const businessSchema = z.object({
     location: z.object({
         lat: z.number(),
         lng: z.number(),
-        region: z.string().min(1, "Viloyatni tanlang"),
-        district: z.string().min(1, "Tumanni tanlang"),
-        address_line1: z.string().min(5, "Manzilni kiriting"),
-        address_line2: z.string().optional(),
-        postal_code: z.string().min(3, "Pochta indeksini kiriting"),
+        regionId: z.string().min(1, "Viloyatni tanlang"),
+        districtId: z.string().min(1, "Tumanni tanlang"),
+        streetId: z.string().optional(),
+        homeNumber: z.string().optional(),
+        type: z.enum(["home", "work", "other"]).default("work"),
+        isDefault: z.boolean().default(true),
     }),
 
     // Step 4: Hours
@@ -139,11 +173,12 @@ const BusinessRegistrationForm = ({ userId, onComplete, editMode = false, initia
             location: initialData.location || {
                 lat: 41.2995,
                 lng: 69.2401,
-                region: "",
-                district: "",
-                address_line1: "",
-                address_line2: "",
-                postal_code: ""
+                regionId: "",
+                districtId: "",
+                streetId: "",
+                homeNumber: "",
+                type: "work" as const,
+                isDefault: true,
             },
             hours: initialData.hours || defaultHours,
             amenities: initialData.amenities || [],
@@ -168,11 +203,12 @@ const BusinessRegistrationForm = ({ userId, onComplete, editMode = false, initia
             location: {
                 lat: 41.2995,
                 lng: 69.2401,
-                region: "",
-                district: "",
-                address_line1: "",
-                address_line2: "",
-                postal_code: ""
+                regionId: "",
+                districtId: "",
+                streetId: "",
+                homeNumber: "",
+                type: "work" as const,
+                isDefault: true,
             },
             hours: defaultHours,
             amenities: [],
@@ -551,97 +587,151 @@ const BusinessRegistrationForm = ({ userId, onComplete, editMode = false, initia
         );
     };
 
+    const filteredDistricts = formData.location.regionId ? getDistrictsByRegion(Number(formData.location.regionId)) : [];
+    const filteredStreets = formData.location.districtId ? getStreetsByDistrict(Number(formData.location.districtId)) : [];
+
+    const handleRegionChange = (val: string) => {
+        const currentLoc = form.getValues("location");
+        setValue("location", { ...currentLoc, regionId: val, districtId: "", streetId: "" });
+    };
+
+    const handleDistrictChange = (val: string) => {
+        const currentLoc = form.getValues("location");
+        setValue("location", { ...currentLoc, districtId: val, streetId: "" });
+    };
+
+    const detectLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const currentLoc = form.getValues("location");
+                setValue("location", {
+                    ...currentLoc,
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                });
+            });
+        }
+    };
+
     const renderStep3 = () => (
         <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
-            <div className="space-y-4">
-                <FormLabel className="text-base text-primary">Asosiy Manzil</FormLabel>
-                <div className="grid grid-cols-2 gap-4">
-                    <FormField control={form.control} name="location.region" render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Viloyat *</FormLabel>
-                            <Select onValueChange={(val) => {
-                                field.onChange(val);
-                                // Reset district when region changes
-                                const currentLoc = form.getValues("location");
-                                setValue("location", { ...currentLoc, region: val, district: "" });
-                            }} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger><SelectValue placeholder="Viloyatni tanlang" /></SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {REGIONS.map(r => (
-                                        <SelectItem key={r.id} value={r.id}>{r.name}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
+            <FormLabel className="text-base text-primary">Yangi manzil</FormLabel>
 
-                    <FormField control={form.control} name="location.district" render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Tuman/Shahar *</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!formData.location.region}>
-                                <FormControl>
-                                    <SelectTrigger><SelectValue placeholder="Tumanni tanlang" /></SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {formData.location.region && DISTRICTS[formData.location.region]?.map(d => (
-                                        <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
-                                    ))}
-                                    {!DISTRICTS[formData.location.region] && (
-                                        <SelectItem value="markaz">Markaz</SelectItem>
-                                    )}
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField control={form.control} name="location.address_line1" render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Ko'cha va Uy *</FormLabel>
-                            <FormControl><Input placeholder="Masalan: A.Temur ko'chasi, 12-uy" {...field} /></FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
-                    <FormField control={form.control} name="location.address_line2" render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Kvartira/Ofis (Ixtiyoriy)</FormLabel>
-                            <FormControl><Input placeholder="Masalan: 2-qavat, 15-xonadon" {...field} /></FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
-                </div>
-
-                <FormField control={form.control} name="location.postal_code" render={({ field }) => (
+            <div className="grid grid-cols-2 gap-4">
+                {/* Region */}
+                <FormField control={form.control} name="location.regionId" render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Pochta Kodu *</FormLabel>
-                        <FormControl><Input placeholder="100000" {...field} /></FormControl>
+                        <FormLabel>Viloyat *</FormLabel>
+                        <Select onValueChange={(val) => {
+                            field.onChange(val);
+                            handleRegionChange(val);
+                        }} value={field.value}>
+                            <FormControl>
+                                <SelectTrigger className="h-11"><SelectValue placeholder="Tanlang" /></SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                {REGIONS.map(r => (
+                                    <SelectItem key={r.id} value={r.id.toString()}>{r.name_uz}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+                {/* District */}
+                <FormField control={form.control} name="location.districtId" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Tuman/Shahar *</FormLabel>
+                        <Select onValueChange={(val) => {
+                            field.onChange(val);
+                            handleDistrictChange(val);
+                        }} value={field.value} disabled={!formData.location.regionId}>
+                            <FormControl>
+                                <SelectTrigger className="h-11"><SelectValue placeholder="Tanlang" /></SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                {filteredDistricts.map(d => (
+                                    <SelectItem key={d.id} value={d.id.toString()}>{d.name_uz}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                         <FormMessage />
                     </FormItem>
                 )} />
             </div>
 
-            <div className="mt-6 pt-6 border-t">
-                <div className="bg-primary/5 p-3 rounded-lg flex items-start gap-3 mb-4">
-                    <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <p className="text-sm text-muted-foreground">Xaritada joylashuvingizni aniq belgilang. Bu mijozlarga sizni oson topishga yordam beradi.</p>
+            <div className="grid grid-cols-2 gap-4">
+                {/* Street */}
+                <FormField control={form.control} name="location.streetId" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Ko'cha</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value || ""} disabled={!formData.location.districtId}>
+                            <FormControl>
+                                <SelectTrigger className="h-11"><SelectValue placeholder="Tanlang" /></SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                {filteredStreets.map(s => (
+                                    <SelectItem key={s.id} value={s.id.toString()}>{s.name_uz}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+
+                {/* Home Number */}
+                <FormField control={form.control} name="location.homeNumber" render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Uy raqami</FormLabel>
+                        <FormControl>
+                            <Input
+                                value={field.value || ""}
+                                onChange={field.onChange}
+                                placeholder="12"
+                                className="h-11"
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+            </div>
+
+            {/* Leaflet Map */}
+            <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                    <FormLabel className="text-sm font-medium">Xaritadan belgilang</FormLabel>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="h-8 text-xs gap-1.5"
+                        onClick={detectLocation}
+                    >
+                        <Navigation className="w-3 h-3" />
+                        Joylashuvni aniqlash
+                    </Button>
                 </div>
-                <FormItem>
-                    <FormLabel>Xarita</FormLabel>
-                    <div className="border rounded-xl overflow-hidden shadow-sm h-[300px]">
-                        <LocationPicker
-                            value={{ lat: formData.location.lat, lng: formData.location.lng }}
-                            onChange={(loc) => {
+                <div className="h-48 w-full rounded-xl overflow-hidden border relative z-0">
+                    <MapContainer
+                        center={[formData.location.lat, formData.location.lng]}
+                        zoom={13}
+                        style={{ height: "100%", width: "100%" }}
+                    >
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={[formData.location.lat, formData.location.lng]} />
+                        <MapController
+                            center={[formData.location.lat, formData.location.lng]}
+                            onLocationSelect={(lt, ln) => {
                                 const currentLoc = form.getValues("location");
-                                setValue("location", { ...currentLoc, ...loc });
+                                setValue("location", { ...currentLoc, lat: lt, lng: ln });
                             }}
                         />
-                    </div>
-                </FormItem>
+                    </MapContainer>
+                </div>
             </div>
         </div>
     );
@@ -851,8 +941,12 @@ const BusinessRegistrationForm = ({ userId, onComplete, editMode = false, initia
 
                     <span className="text-muted-foreground border-t mt-2 pt-2">Manzil:</span>
                     <span className="font-medium text-right flex flex-col items-end border-t mt-2 pt-2">
-                        <span>{REGIONS.find(r => r.id === formData.location.region)?.name}</span>
-                        <span className="text-xs text-muted-foreground">{formData.location.address_line1}</span>
+                        <span>{REGIONS.find(r => r.id === Number(formData.location.regionId))?.name_uz}</span>
+                        <span className="text-xs text-muted-foreground">
+                            {DISTRICTS.find(d => d.id === Number(formData.location.districtId))?.name_uz}
+                            {formData.location.streetId && `, ${STREETS.find(s => s.id === Number(formData.location.streetId))?.name_uz}`}
+                            {formData.location.homeNumber && `, ${formData.location.homeNumber}-uy`}
+                        </span>
                     </span>
 
                     {formData.website && (

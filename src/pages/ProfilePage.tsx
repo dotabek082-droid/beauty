@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, Navigate } from "react-router-dom";
-import { User, Users, Settings, Bell, HelpCircle, LogOut, ChevronRight, Star, Calendar, MapPin, Gift, Edit2, CreditCard, Coins, PlusCircle, Shield, Store, LayoutDashboard, Briefcase, Plus, Building2, MessageSquare, Percent, Ticket, Headphones, TrendingUp, QrCode, Crown, Clock } from "lucide-react";
+import { User, Users, Settings, Bell, HelpCircle, LogOut, ChevronRight, Star, Calendar, MapPin, Gift, Edit2, CreditCard, Coins, PlusCircle, Shield, Store, LayoutDashboard, Briefcase, Plus, Building2, MessageSquare, Percent, Ticket, Headphones, TrendingUp, QrCode, Crown, Clock, CheckCircle, XCircle, BadgeCheck } from "lucide-react";
 import EditClientProfileDialog from "@/components/client/EditClientProfileDialog";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -81,7 +81,6 @@ const ProfilePage = () => {
           title: "Faoliyatim",
           items: [
             { icon: Briefcase, label: "Xizmatlar", badge: null, path: "/business/services" },
-            { icon: TrendingUp, label: "Reklama va TOP", badge: null, path: "/business/promote" },
             { icon: Shield, label: "Ishonch tarixi", badge: null, path: "/profile/trust-history" },
           ]
         },
@@ -91,12 +90,12 @@ const ProfilePage = () => {
             { icon: CreditCard, label: "To'lov usullari", badge: null, path: "/profile/payments" },
             { icon: Coins, label: "Tangalar", badge: null, path: "/profile/coins" },
             { icon: Crown, label: "Biznes Obunasi", badge: "Pro", path: "/business/dashboard?tab=subscription" },
+            { icon: TrendingUp, label: "Reklama va TOP", badge: null, path: "/business/promote" },
           ]
         },
         {
           title: "Tizim",
           items: [
-            { icon: MapPin, label: "Manzillar", badge: "3", path: "/profile/addresses" },
             { icon: Bell, label: "Bildirishnomalar", badge: "3", path: "/profile/notifications" },
             { icon: Settings, label: "Sozlamalar", badge: null, path: "/profile/settings" },
             { icon: Headphones, label: "Qo'llab-quvvatlash", badge: null, path: "/profile/support" },
@@ -210,7 +209,16 @@ const ProfilePage = () => {
           <Card
             variant="elevated"
             className={`p-5 ${isBusinessOwner ? 'cursor-pointer hover:shadow-lg transition-shadow' : ''}`}
-            onClick={() => isBusinessOwner && navigate('/salon/biz-2')}
+            onClick={() => {
+              if (!isBusinessOwner) return;
+              const bStatus = (profile as any)?.business_status;
+              if (bStatus === 'rejected') {
+                toast({ title: "Profil rad etilgan", description: "Administrator bilan bog'laning.", variant: "destructive" });
+                return;
+              }
+              // Navigate to public view — use user ID; falls back to biz-2 demo if no real page
+              navigate(`/salon/${user?.id || 'biz-2'}`);
+            }}
           >
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-primary-soft rounded-full flex items-center justify-center">
@@ -222,53 +230,68 @@ const ProfilePage = () => {
                     <h2 className="text-lg font-semibold text-foreground">
                       {profile?.full_name || user.email}
                     </h2>
-                    <p className="text-sm text-muted-foreground">{user.email}</p>
-                    {profile?.phone && (
-                      <p className="text-xs text-muted-foreground mt-0.5">{profile.phone}</p>
+
+                    {/* Contact info — phone preferred, email as fallback for non-business */}
+                    {isBusinessOwner ? (
+                      profile?.phone && (
+                        <p className="text-sm text-muted-foreground mt-0.5">{profile.phone}</p>
+                      )
+                    ) : (
+                      <>
+                        {profile?.phone
+                          ? <p className="text-sm text-muted-foreground mt-0.5">{profile.phone}</p>
+                          : <p className="text-sm text-muted-foreground mt-0.5">{user.email}</p>
+                        }
+                      </>
                     )}
-                    <div className="flex items-center gap-2 mt-1 flex-wrap">
-                      <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+
+                    {/* Badges row */}
+                    <div className="flex items-center gap-2 mt-2 flex-wrap">
+                      <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
                         {getRoleLabel()}
                       </span>
+
+                      {/* Trust score — clients & business owners, not admin */}
                       {profile && !isAdmin && (
-                        <div onClick={(e) => {
-                          e.stopPropagation();
-                          setIsScoreDialogOpen(true);
-                        }} className="cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0">
+                        <div onClick={(e) => { e.stopPropagation(); setIsScoreDialogOpen(true); }}
+                          className="cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0">
                           <TrustScoreBadge score={profile.trust_score} size="sm" showLabel={true} />
                         </div>
                       )}
-                      
-                      {isBusinessOwner && profile?.is_verified === false && (
-                        <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-1 font-medium border border-amber-200 flex-shrink-0">
-                          <Clock className="w-3 h-3" />
-                          Kutilmoqda
-                        </span>
-                      )}
+
+                      {/* Business status badges */}
+                      {isBusinessOwner && (() => {
+                        const bStatus = (profile as any)?.business_status || 'pending';
+                        const isVerified = profile?.is_verified;
+                        const statusMap: Record<string, { label: string; icon: any; cls: string }> = {
+                          pending:  { label: "Kutilmoqda",   icon: Clock,        cls: "bg-amber-100 text-amber-700 border-amber-200" },
+                          approved: { label: "Tasdiqlangan", icon: CheckCircle,  cls: "bg-green-100 text-green-700 border-green-200" },
+                          rejected: { label: "Rad etilgan",  icon: XCircle,      cls: "bg-red-100 text-red-700 border-red-200" },
+                        };
+                        const s = statusMap[bStatus] || statusMap.pending;
+                        const SIcon = s.icon;
+                        return (
+                          <>
+                            <span className={`text-xs px-2 py-0.5 rounded-full flex items-center gap-1 font-medium border flex-shrink-0 ${s.cls}`}>
+                              <SIcon className="w-3 h-3" />{s.label}
+                            </span>
+                            {isVerified && bStatus === 'approved' && (
+                              <span className="text-xs bg-blue-100 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full flex items-center gap-1 font-medium flex-shrink-0">
+                                <BadgeCheck className="w-3 h-3" />Verifikatsiyalangan
+                              </span>
+                            )}
+                          </>
+                        );
+                      })()}
                     </div>
-                    {isBusinessOwner && profile?.is_verified === false && (
-                        <p className="text-[11px] text-amber-600/90 mt-2 font-medium flex items-start gap-1 bg-amber-50 p-1.5 rounded-md border border-amber-100/50">
-                          <span className="text-amber-500 mt-0.5 relative top-[1px]">*</span>
-                          Profilingiz administrator tomonidan tasdiqlanishi kutilmoqda.
-                        </p>
-                    )}
                   </div>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="h-8 w-8 p-0"
+
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0"
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log('Edit button clicked! isBusinessOwner:', isBusinessOwner);
-                      if (isBusinessOwner) {
-                        console.log('Navigating to /business/edit-profile');
-                        navigate('/business/edit-profile');
-                      } else {
-                        console.log('Opening edit dialog');
-                        setIsEditDialogOpen(true);
-                      }
-                    }}
-                  >
+                      if (isBusinessOwner) navigate('/business/edit-profile');
+                      else setIsEditDialogOpen(true);
+                    }}>
                     <Edit2 className="w-4 h-4" />
                   </Button>
                 </div>

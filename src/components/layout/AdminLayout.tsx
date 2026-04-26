@@ -32,6 +32,7 @@ import {
     ShieldCheck,
     KeyRound,
     History,
+    Ban,
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -69,6 +70,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             items: [
                 { label: "Foydalanuvchilar", path: "/admin/users", icon: Users },
                 { label: "Bizneslar", path: "/admin/businesses", icon: Building2 },
+                { label: "Bloklangan bizneslar", path: "/admin/blocked-businesses", icon: Ban },
                 { label: "Xizmat turlari", path: "/admin/services", icon: Briefcase, badge: 3 },
             ],
         },

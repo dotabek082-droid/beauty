@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, MapPin, Clock, Phone, Heart, Share2, ChevronLeft, Calendar, Check, X, Users, Image, Wrench, Info, MessageSquare, ThumbsUp, Verified, Gift, Ticket, Edit, Plus } from "lucide-react";
+import { Star, MapPin, Clock, Phone, Heart, Share2, ChevronLeft, Calendar, Check, X, Users, Image, Wrench, Info, MessageSquare, ThumbsUp, Verified, Gift, Ticket, Edit, Plus, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -78,12 +78,9 @@ const SalonDetail = () => {
   });
   const [isSalonGalleryEditOpen, setIsSalonGalleryEditOpen] = useState(false);
 
-  // Get business from mockBusinesses
-  const business = mockBusinesses.find(b => b.id === id);
-
-  // Check ownership (Simulated for this task based on URL or user role if available)
-  // For demo: if URL includes 'biz-2', we treat current user as owner
-  const isOwner = user && (id === 'biz-2' || business?.ownerId === user.id);
+  // Get business — fall back to biz-2 demo for business owners viewing their own profile
+  const business = mockBusinesses.find(b => b.id === id) || mockBusinesses.find(b => b.id === 'biz-2');
+  const isOwner = user && (id === 'biz-2' || business?.ownerId === user.id || user.id === id);
 
   if (!business) {
     return (
@@ -177,6 +174,17 @@ const SalonDetail = () => {
 
   return (
     <div className="min-h-screen bg-background pb-24">
+      {/* Owner preview banner */}
+      {isOwner && (
+        <div className="bg-violet-600 text-white text-xs font-medium px-4 py-2 flex items-center justify-between sticky top-0 z-50">
+          <span className="flex items-center gap-1.5">
+            <Eye className="w-3.5 h-3.5" /> Bu sizning biznesingizning ommaviy ko'rinishi
+          </span>
+          <button onClick={() => navigate('/business/edit-profile')} className="underline underline-offset-2 text-white/90 hover:text-white">
+            Tahrirlash →
+          </button>
+        </div>
+      )}
       {/* Hero Image */}
       <div className="relative h-72">
         <img
@@ -196,21 +204,23 @@ const SalonDetail = () => {
             <ChevronLeft className="w-6 h-6 text-foreground" />
           </motion.button>
 
-          <div className="flex items-center gap-2">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              className="w-10 h-10 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center"
-            >
-              <Share2 className="w-5 h-5 text-foreground" />
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={handleFavorite}
-              className="w-10 h-10 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center"
-            >
-              <Heart className={`w-5 h-5 ${isFavorite ? 'fill-destructive text-destructive' : 'text-foreground'}`} />
-            </motion.button>
-          </div>
+          {!isOwner && (
+            <div className="flex items-center gap-2">
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                className="w-10 h-10 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center"
+              >
+                <Share2 className="w-5 h-5 text-foreground" />
+              </motion.button>
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={handleFavorite}
+                className="w-10 h-10 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center"
+              >
+                <Heart className={`w-5 h-5 ${isFavorite ? 'fill-destructive text-destructive' : 'text-foreground'}`} />
+              </motion.button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -329,14 +339,11 @@ const SalonDetail = () => {
                                 )}
                               </div>
                             )}
-                            <Button
-                              variant="soft"
-                              size="sm"
-                              className="mt-2"
-                              onClick={() => handleSelectService(service)}
-                            >
-                              {category?.id === 'restaurants' ? 'Band qilish' : 'Tanlash'}
-                            </Button>
+                            {!isOwner && (
+                              <Button variant="soft" size="sm" className="mt-2" onClick={() => handleSelectService(service)}>
+                                {category?.id === 'restaurants' ? 'Band qilish' : 'Tanlash'}
+                              </Button>
+                            )}
                           </div>
                         </Card>
                       </motion.div>

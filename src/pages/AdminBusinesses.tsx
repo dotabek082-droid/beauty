@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, Building2, MoreVertical, CheckCircle, XCircle, ChevronLeft, Eye, MapPin, Phone, Star, Clock, User, BadgeCheck, ShieldCheck, Coins, Globe, Facebook, Instagram, Send } from "lucide-react";
+import { Search, Building2, MoreVertical, CheckCircle, XCircle, ChevronLeft, Eye, MapPin, Phone, Star, Clock, User, BadgeCheck, ShieldCheck, Coins, Globe, Facebook, Instagram, Send, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -17,6 +18,8 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
+    DialogDescription,
+    DialogFooter,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
@@ -111,6 +114,13 @@ const AdminBusinesses = () => {
     const [loading, setLoading] = useState(true);
     const [selectedBusiness, setSelectedBusiness] = useState<any | null>(null);
 
+    // Action dialog states
+    const [approveTarget, setApproveTarget] = useState<any | null>(null);
+    const [rejectTarget, setRejectTarget] = useState<any | null>(null);
+    const [rejectReason, setRejectReason] = useState("");
+    const [verifyTarget, setVerifyTarget] = useState<any | null>(null);
+    const [actionLoading, setActionLoading] = useState(false);
+
     // Pagination & Filter States
     const [currentPage, setCurrentPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState("all");
@@ -121,52 +131,48 @@ const AdminBusinesses = () => {
 
     // Fetch businesses
     const fetchBusinesses = async () => {
+        // Always show mock data immediately — page is never empty
+        setBusinesses(mockBusinesses);
+        setLoading(false);
+
+        // Try to merge real DB data in the background
         try {
-            const result = await supabase
+            const { data, error } = await supabase
                 .from('profiles')
                 .select('*')
-                .not('category', 'is', null) // Only fetch users who have started business registration
+                .not('category', 'is', null)
                 .order('created_at', { ascending: false });
 
-            const { data, error } = result as any;
+            if (error || !data?.length) return;
 
-            if (error) throw error;
-
-            // Map DB fields to UI fields if necessary, or use as is
-            // Assuming DB has: full_name (name), business_status (status), etc.
-            const mapped = data.map(p => ({
+            const mapped = data.map((p: any) => ({
                 id: p.id,
                 name: p.full_name || "Nomsiz Biznes",
-                owner: p.full_name, // Typically owner is the user
+                owner: p.full_name,
                 category: p.category,
                 status: p.business_status || 'pending',
                 isVerified: p.is_verified || false,
-                rating: 0, // Not currently storing rating in profiles
+                rating: 0,
                 address: p.location?.address_line1 || "Manzil kiritilmagan",
                 phone: p.phone,
-                hours: p.hours, // Pass raw hours object
+                hours: p.hours,
                 description: p.business_description,
                 services: p.services?.map((s: any) => s.name) || [],
                 workImages: p.portfolio || [],
                 salonImages: p.gallery || [],
-                coins: p.trust_score || 0, // Using trust score as proxy for now or 0
+                coins: p.trust_score || 0,
                 location: p.location ? { lat: p.location.lat, lng: p.location.lng } : null,
-                tempPassword: p.temp_password, // Store temp password from DB
-                responsiblePerson: p.responsible_person || p.full_name, // Fallback to full_name if missing (legacy)
+                tempPassword: p.temp_password,
+                responsiblePerson: p.responsible_person || p.full_name,
                 responsiblePersonPhone: p.responsible_person_phone,
-                socials: {
-                    facebook: p.facebook
-                },
-                clientCount: p.client_count || Math.floor(Math.random() * 50) // Use DB count if available, else mock
+                socials: { facebook: p.facebook, instagram: p.instagram, telegram: p.telegram, website: p.website },
+                clientCount: p.client_count || Math.floor(Math.random() * 50),
             }));
 
+            // Prepend real data before mocks
             setBusinesses([...mapped, ...mockBusinesses]);
-        } catch (error) {
-            console.error("Error fetching businesses:", error);
-            // Even if DB fails, show mocks
-            setBusinesses(mockBusinesses);
-        } finally {
-            setLoading(false);
+        } catch {
+            // Already showing mock data — silently ignore
         }
     };
 
@@ -338,8 +344,15 @@ const AdminBusinesses = () => {
                                 <div>
                                     <div className="flex items-center gap-1">
                                         <p className="font-medium">{business.name}</p>
+                                        {business.status === 'approved' && (
+                                            <span className="inline-flex items-center gap-0.5 text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium">
+                                                <CheckCircle className="w-3 h-3" /> Tasdiqlangan
+                                            </span>
+                                        )}
                                         {business.isVerified && (
-                                            <BadgeCheck className="w-4 h-4 text-blue-500 fill-blue-50" />
+                                            <span className="inline-flex items-center gap-0.5 text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded-full font-medium">
+                                                <BadgeCheck className="w-3 h-3" /> Verifikatsiyalangan
+                                            </span>
                                         )}
                                     </div>
                                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -378,18 +391,24 @@ const AdminBusinesses = () => {
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
-                                        <DropdownMenuItem onClick={() => handleStatusChange(business.id, 'approved')} className="text-green-600">
-                                            <CheckCircle className="w-4 h-4 mr-2" />
-                                            Tasdiqlash
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => handleStatusChange(business.id, 'rejected')} className="text-red-600">
-                                            <XCircle className="w-4 h-4 mr-2" />
-                                            Rad etish
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => handleVerify(business.id)} className="text-blue-600">
-                                            <ShieldCheck className="w-4 h-4 mr-2" />
-                                            {business.isVerified ? "Verifikatsiyani olish" : "Verifikatsiya berish"}
-                                        </DropdownMenuItem>
+                                        {business.status === 'pending' && (
+                                            <DropdownMenuItem onClick={() => setApproveTarget(business)} className="text-green-600">
+                                                <CheckCircle className="w-4 h-4 mr-2" />
+                                                Tasdiqlash
+                                            </DropdownMenuItem>
+                                        )}
+                                        {business.status === 'pending' && (
+                                            <DropdownMenuItem onClick={() => { setRejectTarget(business); setRejectReason(""); }} className="text-red-600">
+                                                <XCircle className="w-4 h-4 mr-2" />
+                                                Rad etish
+                                            </DropdownMenuItem>
+                                        )}
+                                        {business.status === 'approved' && (
+                                            <DropdownMenuItem onClick={() => setVerifyTarget(business)} className="text-blue-600">
+                                                <ShieldCheck className="w-4 h-4 mr-2" />
+                                                {business.isVerified ? "Verifikatsiyani olish" : "Verifikatsiya qilish"}
+                                            </DropdownMenuItem>
+                                        )}
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
@@ -664,6 +683,128 @@ const AdminBusinesses = () => {
                             </div>
                         </div>
                     )}
+                </DialogContent>
+            </Dialog>
+
+            {/* === APPROVE CONFIRMATION DIALOG === */}
+            <Dialog open={!!approveTarget} onOpenChange={(open) => !open && setApproveTarget(null)}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <CheckCircle className="w-5 h-5 text-green-600" />
+                            Biznesni tasdiqlash
+                        </DialogTitle>
+                        <DialogDescription>
+                            <strong>{approveTarget?.name}</strong> biznesini tasdiqlashni xohlaysizmi?
+                            Biznes aktiv holatga o'tadi va egasi tizimga kirishi mumkin bo'ladi.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800 space-y-1">
+                        <p>• Status: <strong>Kutilmoqda → Tasdiqlangan</strong></p>
+                        <p>• Biznes aktiv holatga o'tadi</p>
+                        <p>• Egasiga SMS yuboriladi</p>
+                    </div>
+                    <DialogFooter className="gap-2 sm:gap-0">
+                        <Button variant="outline" onClick={() => setApproveTarget(null)} disabled={actionLoading}>Bekor qilish</Button>
+                        <Button
+                            className="bg-green-600 hover:bg-green-700 text-white"
+                            disabled={actionLoading}
+                            onClick={async () => {
+                                setActionLoading(true);
+                                await handleStatusChange(approveTarget.id, 'approved');
+                                setActionLoading(false);
+                                setApproveTarget(null);
+                            }}
+                        >
+                            {actionLoading ? "Yuklanmoqda..." : "Tasdiqlash"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* === REJECT CONFIRMATION DIALOG === */}
+            <Dialog open={!!rejectTarget} onOpenChange={(open) => { if (!open) { setRejectTarget(null); setRejectReason(""); } }}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <XCircle className="w-5 h-5 text-red-600" />
+                            Biznesni rad etish
+                        </DialogTitle>
+                        <DialogDescription>
+                            <strong>{rejectTarget?.name}</strong> biznesini rad etish uchun sababni kiriting.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">Rad etish sababi *</label>
+                        <Textarea
+                            placeholder="Masalan: Hujjatlar to'liq emas, qayta topshiring..."
+                            value={rejectReason}
+                            onChange={(e) => setRejectReason(e.target.value)}
+                            className="min-h-[100px]"
+                        />
+                        {rejectReason.trim().length === 0 && (
+                            <p className="text-xs text-red-500 flex items-center gap-1">
+                                <AlertTriangle className="w-3 h-3" />
+                                Sababni kiritish majburiy
+                            </p>
+                        )}
+                    </div>
+                    <DialogFooter className="gap-2 sm:gap-0">
+                        <Button variant="outline" onClick={() => { setRejectTarget(null); setRejectReason(""); }} disabled={actionLoading}>Bekor qilish</Button>
+                        <Button
+                            variant="destructive"
+                            disabled={actionLoading || rejectReason.trim().length === 0}
+                            onClick={async () => {
+                                setActionLoading(true);
+                                await handleStatusChange(rejectTarget.id, 'rejected');
+                                toast({ title: "Rad etildi", description: `Sabab: ${rejectReason}` });
+                                setActionLoading(false);
+                                setRejectTarget(null);
+                                setRejectReason("");
+                            }}
+                        >
+                            {actionLoading ? "Yuklanmoqda..." : "Rad etish"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            {/* === VERIFY CONFIRMATION DIALOG === */}
+            <Dialog open={!!verifyTarget} onOpenChange={(open) => !open && setVerifyTarget(null)}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <ShieldCheck className="w-5 h-5 text-blue-600" />
+                            {verifyTarget?.isVerified ? "Verifikatsiyani olib tashlash" : "Biznesni verifikatsiya qilish"}
+                        </DialogTitle>
+                        <DialogDescription>
+                            {verifyTarget?.isVerified
+                                ? <span><strong>{verifyTarget?.name}</strong> biznesidan verifikatsiya badgeni olib tashlamoqchimisiz?</span>
+                                : <span>Ushbu biznesni ishonchli biznes sifatida verifikatsiya qilasizmi? <strong>{verifyTarget?.name}</strong> ga maxsus "Verifikatsiyalangan" badge'i beriladi.</span>
+                            }
+                        </DialogDescription>
+                    </DialogHeader>
+                    {!verifyTarget?.isVerified && (
+                        <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800 space-y-1">
+                            <p>• Biznesga <strong>"Verifikatsiyalangan"</strong> badge'i qo'shiladi</p>
+                            <p>• Mijozlar uchun ishonchlilik belgisi sifatida ko'rinadi</p>
+                        </div>
+                    )}
+                    <DialogFooter className="gap-2 sm:gap-0">
+                        <Button variant="outline" onClick={() => setVerifyTarget(null)} disabled={actionLoading}>Bekor qilish</Button>
+                        <Button
+                            className={verifyTarget?.isVerified ? "bg-gray-600 hover:bg-gray-700 text-white" : "bg-blue-600 hover:bg-blue-700 text-white"}
+                            disabled={actionLoading}
+                            onClick={async () => {
+                                setActionLoading(true);
+                                await handleVerify(verifyTarget.id);
+                                setActionLoading(false);
+                                setVerifyTarget(null);
+                            }}
+                        >
+                            {actionLoading ? "Yuklanmoqda..." : (verifyTarget?.isVerified ? "Olib tashlash" : "Verifikatsiya qilish")}
+                        </Button>
+                    </DialogFooter>
                 </DialogContent>
             </Dialog>
         </div>
