@@ -12,7 +12,7 @@ export const usePromotionTypes = () => {
             descriptionUz: 'Tasodifiy g\'olib tanlash - go\'zallik xizmatlari uchun',
             color: 'blue',
             availableFor: ['beauty', 'spa', 'salon', 'all'],
-            coinCost: 150,
+            coinCost: 1500,
         },
         {
             type: 'buy_one_get_one',
@@ -23,7 +23,7 @@ export const usePromotionTypes = () => {
             descriptionUz: 'Bittasini oling, ikkinchisi bepul - restoran va kafe uchun',
             color: 'green',
             availableFor: ['restaurant', 'cafe', 'food', 'all'],
-            coinCost: 50,
+            coinCost: 500,
         },
         {
             type: 'discount',
@@ -34,7 +34,7 @@ export const usePromotionTypes = () => {
             descriptionUz: 'Foiz yoki qat\'iy miqdorda chegirma',
             color: 'orange',
             availableFor: ['all'],
-            coinCost: 50,
+            coinCost: 500,
         },
         {
             type: 'free_service',
@@ -45,7 +45,7 @@ export const usePromotionTypes = () => {
             descriptionUz: 'Mijozlar uchun vaqtincha bepul xizmatlar taklif qiling',
             color: 'purple',
             availableFor: ['all'],
-            coinCost: 100,
+            coinCost: 1000,
         },
         {
             type: 'loyalty_card',
@@ -56,7 +56,7 @@ export const usePromotionTypes = () => {
             descriptionUz: 'Mijozlarni ma\'lum tashriflardan keyin mukofotlang',
             color: 'teal',
             availableFor: ['all'],
-            coinCost: 75,
+            coinCost: 750,
         },
         {
             type: 'service_bundle',
@@ -67,7 +67,7 @@ export const usePromotionTypes = () => {
             descriptionUz: 'Bir nechta xizmatni chegirmali narxda birlashtiring',
             color: 'pink',
             availableFor: ['all'],
-            coinCost: 60,
+            coinCost: 600,
         },
     ];
 

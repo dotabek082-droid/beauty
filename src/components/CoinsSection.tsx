@@ -510,24 +510,34 @@ const CoinsSection = () => {
                                     <div>
                                         <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">🎁 Aksiyalar va Marketing</p>
                                         <div className="space-y-2 text-sm">
-                                            <div className="flex items-start gap-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                                            <div className="flex items-start gap-3 p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg">
                                                 <span className="text-2xl">🎟️</span>
                                                 <div className="flex-1">
                                                     <div className="flex items-center justify-between mb-1">
                                                         <p className="font-medium text-foreground">Lotereya yaratish</p>
-                                                        <Badge variant="secondary" className="bg-amber-500/20 text-amber-700 border-amber-500/30 text-xs">500 tanga</Badge>
+                                                        <Badge variant="secondary" className="bg-purple-500/20 text-purple-700 border-purple-500/30 text-xs">1,500 tanga</Badge>
                                                     </div>
-                                                    <p className="text-xs text-muted-foreground">Mijozlarni jalb qilish uchun lotereya e'lon qiling</p>
+                                                    <p className="text-xs text-muted-foreground">Tasodifiy g'olib tanlash — go'zallik xizmatlari uchun</p>
                                                 </div>
                                             </div>
                                             <div className="flex items-start gap-3 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                                                <span className="text-2xl">🎁</span>
+                                                <div className="flex-1">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                        <p className="font-medium text-foreground">1+1 Taklif</p>
+                                                        <Badge variant="secondary" className="bg-green-500/20 text-green-700 border-green-500/30 text-xs">500 tanga</Badge>
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">Bittasini oling, ikkinchisi bepul — restoran va kafe uchun</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-3 p-3 bg-orange-500/10 border border-orange-500/20 rounded-lg">
                                                 <span className="text-2xl">💰</span>
                                                 <div className="flex-1">
                                                     <div className="flex items-center justify-between mb-1">
                                                         <p className="font-medium text-foreground">Chegirma aksiyasi</p>
-                                                        <Badge variant="secondary" className="bg-green-500/20 text-green-700 border-green-500/30 text-xs">300 tanga</Badge>
+                                                        <Badge variant="secondary" className="bg-orange-500/20 text-orange-700 border-orange-500/30 text-xs">500 tanga</Badge>
                                                     </div>
-                                                    <p className="text-xs text-muted-foreground">Maxsus chegirma takliflarini e'lon qiling</p>
+                                                    <p className="text-xs text-muted-foreground">Foiz yoki qat'iy miqdorda chegirma taklifi</p>
                                                 </div>
                                             </div>
                                             <div className="flex items-start gap-3 p-3 bg-secondary/30 rounded-lg">
@@ -535,9 +545,29 @@ const CoinsSection = () => {
                                                 <div className="flex-1">
                                                     <div className="flex items-center justify-between mb-1">
                                                         <p className="font-medium text-foreground">Bepul xizmat aksiyasi</p>
-                                                        <Badge variant="outline" className="text-xs">400 tanga</Badge>
+                                                        <Badge variant="outline" className="text-xs">1,000 tanga</Badge>
                                                     </div>
-                                                    <p className="text-xs text-muted-foreground">Yangi mijozlarni jalb qilish uchun</p>
+                                                    <p className="text-xs text-muted-foreground">Mijozlar uchun vaqtincha bepul xizmatlar taklif qiling</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-3 p-3 bg-teal-500/10 border border-teal-500/20 rounded-lg">
+                                                <span className="text-2xl">🃏</span>
+                                                <div className="flex-1">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                        <p className="font-medium text-foreground">Sadoqat Kartasi</p>
+                                                        <Badge variant="secondary" className="bg-teal-500/20 text-teal-700 border-teal-500/30 text-xs">750 tanga</Badge>
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">Mijozlarni ma'lum tashriflardan keyin mukofotlang</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-start gap-3 p-3 bg-pink-500/10 border border-pink-500/20 rounded-lg">
+                                                <span className="text-2xl">📦</span>
+                                                <div className="flex-1">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                        <p className="font-medium text-foreground">Paket Taklif</p>
+                                                        <Badge variant="secondary" className="bg-pink-500/20 text-pink-700 border-pink-500/30 text-xs">600 tanga</Badge>
+                                                    </div>
+                                                    <p className="text-xs text-muted-foreground">Bir nechta xizmatni chegirmali narxda birlashtiring</p>
                                                 </div>
                                             </div>
                                         </div>
