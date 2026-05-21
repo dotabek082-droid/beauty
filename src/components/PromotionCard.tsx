@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Gift, Users, Clock, MapPin, Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -22,6 +23,7 @@ const formatDate = (dateStr: string) => {
 };
 
 const PromotionCard = ({ promotion, onBook, onEnterLottery, variant = "default" }: PromotionCardProps) => {
+  const navigate = useNavigate();
   const remainingSlots = promotion.slotsAvailable - promotion.slotsUsed;
   const isAlmostFull = remainingSlots <= 3;
   const isFull = remainingSlots <= 0;
@@ -36,7 +38,7 @@ const PromotionCard = ({ promotion, onBook, onEnterLottery, variant = "default" 
   if (variant === "compact") {
     return (
       <motion.div whileTap={{ scale: 0.98 }}>
-        <Card className="overflow-hidden flex">
+        <Card className="overflow-hidden flex cursor-pointer" onClick={() => isLottery && onEnterLottery ? onEnterLottery(promotion) : navigate(`/salon/${promotion.salonId}?promotionId=${promotion.id}`)}>
           <div className="relative w-24 h-24 flex-shrink-0">
             <img
               src={promotion.imageUrl}
@@ -68,7 +70,7 @@ const PromotionCard = ({ promotion, onBook, onEnterLottery, variant = "default" 
                 size="sm"
                 variant="soft"
                 className="h-7 text-xs"
-                onClick={() => isLottery && onEnterLottery ? onEnterLottery(promotion) : onBook(promotion)}
+                onClick={() => isLottery && onEnterLottery ? onEnterLottery(promotion) : navigate(`/salon/${promotion.salonId}?promotionId=${promotion.id}`)}
                 disabled={isLottery ? entryDeadlinePassed : isFull}
               >
                 {isLottery ? "Ishtirok" : (isFull ? "To'ldi" : (promotion.discountedPrice !== undefined && promotion.discountedPrice > 0 ? "Chegirma" : "Olish"))}
@@ -86,7 +88,7 @@ const PromotionCard = ({ promotion, onBook, onEnterLottery, variant = "default" 
       whileTap={{ scale: 0.98 }}
       className="w-full"
     >
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden cursor-pointer" onClick={() => isLottery && onEnterLottery ? onEnterLottery(promotion) : navigate(`/salon/${promotion.salonId}?promotionId=${promotion.id}`)}>
         <div className="relative h-36">
           <img
             src={promotion.imageUrl}
@@ -216,7 +218,7 @@ const PromotionCard = ({ promotion, onBook, onEnterLottery, variant = "default" 
           <Button
             className="w-full"
             variant={isLottery ? "default" : (isFull ? "outline" : "coral")}
-            onClick={() => isLottery && onEnterLottery ? onEnterLottery(promotion) : onBook(promotion)}
+            onClick={() => isLottery && onEnterLottery ? onEnterLottery(promotion) : navigate(`/salon/${promotion.salonId}?promotionId=${promotion.id}`)}
             disabled={isLottery ? entryDeadlinePassed : isFull}
           >
             {isLottery

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
     Calendar, Eye, Edit, Trash2, AlertCircle,
     CheckCircle, XCircle, Clock, PieChart,
-    Layers, Check, Filter, ArrowRight, Star, ChevronLeft, ChevronRight, X, Users
+    Layers, Check, Filter, ArrowRight, Star, ChevronLeft, ChevronRight, X, Users, Trophy
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import { BusinessPromotion } from "@/types/business";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { PromotionParticipants } from "@/components/business/PromotionParticipants";
 import { generateMockParticipants } from "@/data/mockParticipants";
+import { LotteryWinnerSelection } from "@/components/business/LotteryWinnerSelection";
 
 interface MyPromotionsProps {
     businessId: string;
@@ -28,6 +29,12 @@ const MyPromotions = ({ businessId }: MyPromotionsProps) => {
     const [viewingPromotion, setViewingPromotion] = useState<BusinessPromotion | null>(null);
     const [participantsDialogOpen, setParticipantsDialogOpen] = useState(false);
     const [selectedPromotionForParticipants, setSelectedPromotionForParticipants] = useState<BusinessPromotion | null>(null);
+    const [winnerSelectionOpen, setWinnerSelectionOpen] = useState(false);
+    const [selectedLotteryForWinners, setSelectedLotteryForWinners] = useState<BusinessPromotion | null>(null);
+
+    const hasWinners = (promoId: string) => {
+        try { return JSON.parse(localStorage.getItem(`lottery_winners_${promoId}`) || '[]').length > 0; } catch { return false; }
+    };
 
     useEffect(() => {
         if (frontendPromos && frontendPromos.length > 0) {
@@ -411,6 +418,26 @@ const MyPromotions = ({ businessId }: MyPromotionsProps) => {
                                                         <span className="text-[10px] font-bold uppercase tracking-widest">Ko'rib chiqilmoqda</span>
                                                     </div>
                                                 )}
+
+                                                {/* Lottery winner selection button */}
+                                                {promo.approvalStatus.status === "active" && promo.lotteryEnabled && promo.endsAt && new Date(promo.endsAt) < new Date() && (
+                                                    <Button
+                                                        size="sm"
+                                                        className={`h-7 text-[10px] font-bold gap-1 ${hasWinners(promo.id)
+                                                            ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
+                                                            : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 animate-pulse'
+                                                        }`}
+                                                        variant="ghost"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setSelectedLotteryForWinners(promo);
+                                                            setWinnerSelectionOpen(true);
+                                                        }}
+                                                    >
+                                                        <Trophy className="w-3.5 h-3.5" />
+                                                        {hasWinners(promo.id) ? "G'oliblarni ko'rish" : "G'oliblarni tanlash"}
+                                                    </Button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -574,15 +601,14 @@ const MyPromotions = ({ businessId }: MyPromotionsProps) => {
                                                 </div>
                                             )}
 
-                                            {/* Registered Participants - Show only for active promotions */}
+                                            {/* Registered Participants & Winner Selection */}
                                             {viewingPromotion.approvalStatus.status === 'active' && (
-                                                <div className="space-y-2">
+                                                <div className="space-y-3">
                                                     <div className="flex justify-between items-center">
                                                         <p className="text-xs font-semibold text-purple-700">Ro'yxatdan o'tganlar:</p>
                                                         <span className="text-xs font-medium text-purple-900">{viewingPromotion.currentEntries || 0} kishi</span>
                                                     </div>
                                                     <div className="max-h-48 overflow-y-auto space-y-1.5">
-                                                        {/* Mock registered users */}
                                                         {[
                                                             { name: 'Alisher Karimov', phone: '+998 90 123 45 67', date: '2026-02-08' },
                                                             { name: 'Dilnoza Rahimova', phone: '+998 91 234 56 78', date: '2026-02-09' },
@@ -601,6 +627,21 @@ const MyPromotions = ({ businessId }: MyPromotionsProps) => {
                                                             </div>
                                                         ))}
                                                     </div>
+
+                                                    {/* Winner Selection Button */}
+                                                    {viewingPromotion.endsAt && new Date(viewingPromotion.endsAt) < new Date() && (
+                                                        <Button
+                                                            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold"
+                                                            onClick={() => {
+                                                                setSelectedLotteryForWinners(viewingPromotion);
+                                                                setWinnerSelectionOpen(true);
+                                                                setViewingPromotion(null);
+                                                            }}
+                                                        >
+                                                            <Trophy className="w-4 h-4 mr-2" />
+                                                            {hasWinners(viewingPromotion.id) ? "G'oliblarni ko'rish" : "G'oliblarni tanlash"}
+                                                        </Button>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
@@ -1055,6 +1096,18 @@ const MyPromotions = ({ businessId }: MyPromotionsProps) => {
                     promotionId={selectedPromotionForParticipants.id}
                     promotionName={selectedPromotionForParticipants.serviceName}
                     participants={generateMockParticipants(selectedPromotionForParticipants.id, 15)}
+                />
+            )}
+
+            {/* Lottery Winner Selection Dialog */}
+            {selectedLotteryForWinners && (
+                <LotteryWinnerSelection
+                    open={winnerSelectionOpen}
+                    onOpenChange={setWinnerSelectionOpen}
+                    promotionId={selectedLotteryForWinners.id}
+                    promotionName={selectedLotteryForWinners.serviceName}
+                    totalWinners={selectedLotteryForWinners.totalWinners || 1}
+                    participants={generateMockParticipants(selectedLotteryForWinners.id, 15)}
                 />
             )}
         </div>

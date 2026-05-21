@@ -77,6 +77,26 @@ export const mockBusinesses: Business[] = [
                 price: 30000,
                 isActive: true,
             },
+            {
+                id: "svc-hair-color",
+                businessId: "biz-1",
+                name: "Soch Bo'yash",
+                description: "L'Oreal professional bo'yoqlari bilan soch bo'yash xizmati",
+                category: "HairColor",
+                duration: 90,
+                price: 450000,
+                isActive: true,
+            },
+            {
+                id: "svc-manicure",
+                businessId: "biz-1",
+                name: "Manikyur + Gel Lak",
+                description: "Manikyur va gel lak qoplash xizmati",
+                category: "Nails",
+                duration: 60,
+                price: 120000,
+                isActive: true,
+            },
         ],
         staff: [
             {

@@ -4,7 +4,7 @@ import { Star, MapPin, Clock, Phone, Heart, Share2, ChevronLeft, Calendar, Check
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { mockBusinesses } from "@/data/businessData";
 import { getCategoryById } from "@/data/categories";
 import { mockPromotions, Promotion } from "@/data/promotionData";
@@ -49,6 +49,8 @@ const timeSlots = [
 const SalonDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const promotionId = searchParams.get('promotionId');
   const { hasActiveDiscount, applyDiscount } = useDiscount();
   const { user } = useAuth();
   const [showBooking, setShowBooking] = useState(false);
@@ -98,6 +100,11 @@ const SalonDetail = () => {
   // Get promotions for this business
   const businessPromotions = mockPromotions.filter(p => p.salonId === id && p.isActive);
 
+  // Find the active promotion the user came from
+  const activePromotion = promotionId
+    ? mockPromotions.find(p => p.id === promotionId && p.isActive)
+    : null;
+
   // Check if business is open now
   const isOpenNow = () => {
     const now = new Date();
@@ -135,7 +142,20 @@ const SalonDetail = () => {
     };
   });
 
-  const handleSelectService = (service: Service) => {
+  // Check if a service matches the active promotion
+  const getPromotionForService = (service: Service) => {
+    if (!activePromotion) return null;
+    // Match by checking if the promotion's service name is related to the business service
+    const promoName = activePromotion.serviceName.toLowerCase();
+    const serviceName = service.name.toLowerCase();
+    // Check if service name appears within the promotion name or vice versa
+    if (promoName.includes(serviceName) || serviceName.includes(promoName)) {
+      return activePromotion;
+    }
+    return null;
+  };
+
+  const handleSelectService = (service: Service, promotionOverride?: Promotion | null) => {
     setSelectedService(service);
     setIsServiceModalOpen(true);
   };
@@ -291,6 +311,55 @@ const SalonDetail = () => {
 
             {business.services && business.services.length > 0 ? (
               <>
+                {/* Active Promotion Banner */}
+                {activePromotion && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <Card className={`p-4 mb-4 border-2 ${
+                      activePromotion.discountedPrice === 0
+                        ? 'border-success/40 bg-gradient-to-r from-success/10 via-success/5 to-transparent'
+                        : 'border-blue-500/40 bg-gradient-to-r from-blue-500/10 via-blue-500/5 to-transparent'
+                    }`}>
+                      <div className="flex items-start gap-3">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                          activePromotion.discountedPrice === 0 ? 'bg-success/20' : 'bg-blue-500/20'
+                        }`}>
+                          <Gift className={`w-5 h-5 ${
+                            activePromotion.discountedPrice === 0 ? 'text-success' : 'text-blue-500'
+                          }`} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                              activePromotion.discountedPrice === 0
+                                ? 'bg-success/20 text-success'
+                                : 'bg-blue-500/20 text-blue-600'
+                            }`}>
+                              {activePromotion.discountedPrice === 0 ? '🎁 BEPUL AKSIYA' : '🏷️ CHEGIRMA'}
+                            </span>
+                          </div>
+                          <h3 className="font-bold text-foreground text-sm">{activePromotion.serviceName}</h3>
+                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{activePromotion.serviceDescription}</p>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="text-xs line-through text-muted-foreground">{activePromotion.originalPrice.toLocaleString()} so'm</span>
+                            <span className={`text-sm font-bold ${
+                              activePromotion.discountedPrice === 0 ? 'text-success' : 'text-blue-600'
+                            }`}>
+                              {activePromotion.discountedPrice === 0 ? 'BEPUL' : `${(activePromotion.discountedPrice || 0).toLocaleString()} so'm`}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-[11px] text-muted-foreground mt-2 italic">
+                        👇 Quyidagi mos xizmatni tanlang — aksiya narxi avtomatik qo'llaniladi
+                      </p>
+                    </Card>
+                  </motion.div>
+                )}
+
                 {/* Discount Indicator */}
                 {hasActiveDiscount && (
                   <Card className="p-3 mb-3 border-success/30 bg-success/5 flex items-center gap-2">
@@ -301,6 +370,9 @@ const SalonDetail = () => {
                 <div className="space-y-2">
                   {business.services.map((service, index) => {
                     const priceInfo = applyDiscount(service.price);
+                    const servicePromotion = getPromotionForService(service);
+                    const hasPromotion = !!servicePromotion;
+                    const promoPrice = hasPromotion ? servicePromotion!.discountedPrice : undefined;
                     return (
                       <motion.div
                         key={service.id}
@@ -308,9 +380,32 @@ const SalonDetail = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
                       >
-                        <Card className="p-4 flex items-center justify-between">
-                          <div>
-                            <h3 className="font-medium text-foreground">{service.name}</h3>
+                        <Card className={`p-4 flex items-center justify-between relative overflow-hidden ${
+                          hasPromotion
+                            ? promoPrice === 0
+                              ? 'border-2 border-success/50 bg-success/5 shadow-lg shadow-success/10'
+                              : 'border-2 border-blue-500/50 bg-blue-500/5 shadow-lg shadow-blue-500/10'
+                            : ''
+                        }`}>
+                          {/* Promo glow accent */}
+                          {hasPromotion && (
+                            <div className={`absolute top-0 left-0 w-1 h-full ${
+                              promoPrice === 0 ? 'bg-success' : 'bg-blue-500'
+                            }`} />
+                          )}
+                          <div className="pl-1">
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-medium text-foreground">{service.name}</h3>
+                              {hasPromotion && (
+                                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                                  promoPrice === 0
+                                    ? 'bg-success text-white'
+                                    : 'bg-blue-500 text-white'
+                                }`}>
+                                  {promoPrice === 0 ? 'BEPUL' : 'AKSIYA'}
+                                </span>
+                              )}
+                            </div>
                             <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{service.description}</p>
                             <div className="flex items-center gap-3 mt-2">
                               {service.duration && (
@@ -322,7 +417,16 @@ const SalonDetail = () => {
                             </div>
                           </div>
                           <div className="text-right flex flex-col items-end">
-                            {hasActiveDiscount ? (
+                            {hasPromotion ? (
+                              <div>
+                                <p className="text-sm line-through text-muted-foreground">{service.price.toLocaleString()} so'm</p>
+                                <p className={`font-bold text-lg ${
+                                  promoPrice === 0 ? 'text-success' : 'text-blue-600'
+                                }`}>
+                                  {promoPrice === 0 ? 'Bepul' : `${(promoPrice || 0).toLocaleString()} so'm`}
+                                </p>
+                              </div>
+                            ) : hasActiveDiscount ? (
                               <div>
                                 <p className="text-sm line-through text-muted-foreground">{service.price.toLocaleString()} so'm</p>
                                 <p className="font-semibold text-success">{priceInfo.finalPrice.toLocaleString()} so'm</p>
@@ -340,8 +444,16 @@ const SalonDetail = () => {
                               </div>
                             )}
                             {!isOwner && (
-                              <Button variant="soft" size="sm" className="mt-2" onClick={() => handleSelectService(service)}>
-                                {category?.id === 'restaurants' ? 'Band qilish' : 'Tanlash'}
+                              <Button
+                                variant={hasPromotion ? 'coral' : 'soft'}
+                                size="sm"
+                                className={`mt-2 ${hasPromotion ? 'shadow-md' : ''}`}
+                                onClick={() => handleSelectService(service, hasPromotion ? servicePromotion : undefined)}
+                              >
+                                {hasPromotion
+                                  ? (promoPrice === 0 ? '🎁 Bepul olish' : '🏷️ Chegirma olish')
+                                  : (category?.id === 'restaurants' ? 'Band qilish' : 'Tanlash')
+                                }
                               </Button>
                             )}
                           </div>
@@ -518,25 +630,7 @@ const SalonDetail = () => {
           </TabsContent>
         </Tabs>
 
-        {/* Promotions Section */}
-        {businessPromotions.length > 0 && (
-          <section className="mt-6">
-            <h3 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
-              <Gift className="w-5 h-5 text-success" />
-              Bepul xizmatlar
-            </h3>
-            <div className="space-y-3">
-              {businessPromotions.map((promotion) => (
-                <PromotionCard
-                  key={promotion.id}
-                  promotion={promotion}
-                  onBook={handleBookPromotion}
-                  variant="compact"
-                />
-              ))}
-            </div>
-          </section>
-        )}
+
       </div>
 
       {/* Booking Modal */}
@@ -727,8 +821,10 @@ const SalonDetail = () => {
       <ServiceBookingModal
         service={selectedService}
         salonName={business.name}
+        salonId={business.id}
         isOpen={isServiceModalOpen}
         onClose={handleCloseServiceModal}
+        promotion={activePromotion && selectedService ? getPromotionForService(selectedService) || undefined : undefined}
       />
 
       {/* Edit Dialogs */}

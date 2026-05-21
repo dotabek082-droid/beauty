@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { fakePromocodes, Promocode } from "@/data/promocodes"; // Import mock data
+import { Promotion } from "@/data/promotionData";
 
 interface Service {
   id: string;
@@ -46,6 +47,7 @@ interface ServiceBookingModalProps {
   salonId?: string;
   isOpen: boolean;
   onClose: () => void;
+  promotion?: Promotion;
 }
 
 type Step = "datetime" | "confirm" | "success";
@@ -59,11 +61,19 @@ const generateNextDays = () => {
   return Array.from({ length: 7 }, (_, i) => addDays(new Date(), i));
 };
 
-const ServiceBookingModal = ({ service, salonName, salonId, isOpen, onClose }: ServiceBookingModalProps) => {
+const ServiceBookingModal = ({ service, salonName, salonId, isOpen, onClose, promotion }: ServiceBookingModalProps) => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [step, setStep] = useState<Step>("datetime");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Determine the effective price (promotion price or regular)
+  const effectivePrice = promotion && promotion.discountedPrice !== undefined
+    ? promotion.discountedPrice
+    : (service?.price || 0);
+  const originalPrice = service?.price || 0;
+  const isPromotionActive = !!promotion;
+  const isFreePromotion = isPromotionActive && effectivePrice === 0;
 
   // Date/Time selection state
   const [days] = useState(generateNextDays);
@@ -264,24 +274,28 @@ const ServiceBookingModal = ({ service, salonName, salonId, isOpen, onClose }: S
   // --- Calculation Logic ---
 
   const calculateTotals = () => {
-    let finalPrice = service.price;
+    let finalPrice = effectivePrice;
     let discountAmount = 0;
     let coinCost = 0; // Coins used for PAYMENT, not discount cost
 
-    // 1. Apply Promocode Discount
-    if (appliedPromocode) {
+    // If promotion is active, the discount is the difference between original and promo price
+    if (isPromotionActive) {
+      discountAmount = originalPrice - effectivePrice;
+    }
+    // 1. Apply Promocode Discount (only if no promotion is active)
+    else if (appliedPromocode) {
       if (appliedPromocode.discountType === 'percent') {
-        discountAmount = (service.price * appliedPromocode.discountValue) / 100;
+        discountAmount = (originalPrice * appliedPromocode.discountValue) / 100;
       } else {
         discountAmount = appliedPromocode.discountValue;
       }
       // Ensure discount doesn't exceed price
-      discountAmount = Math.min(discountAmount, service.price);
-      finalPrice = service.price - discountAmount;
+      discountAmount = Math.min(discountAmount, originalPrice);
+      finalPrice = originalPrice - discountAmount;
     }
 
-    // 2. Apply Payment Method Logic
-    if (paymentMethod === "coins") {
+    // 2. Apply Payment Method Logic (skip for free)
+    if (!isFreePromotion && paymentMethod === "coins") {
       const coinsToUse = parseInt(customCoinAmount) || 0;
       // You can pay up to the full remaining price with coins (1 coin = 1 sum)
       const actualCoinsToPay = Math.min(coinsToUse, finalPrice);
@@ -472,19 +486,49 @@ const ServiceBookingModal = ({ service, salonName, salonId, isOpen, onClose }: S
                 <div className="space-y-5">
                   <Card className="p-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        isPromotionActive
+                          ? isFreePromotion ? 'bg-success/10' : 'bg-blue-500/10'
+                          : 'bg-primary/10'
+                      }`}>
                         {(() => {
                           const Icon = getServiceIcon(service.name, service.category);
-                          return <Icon className="w-5 h-5 text-primary" />;
+                          return <Icon className={`w-5 h-5 ${
+                            isPromotionActive
+                              ? isFreePromotion ? 'text-success' : 'text-blue-500'
+                              : 'text-primary'
+                          }`} />;
                         })()}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-foreground text-sm truncate">{service.name}</h3>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-semibold text-foreground text-sm truncate">{service.name}</h3>
+                          {isPromotionActive && (
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                              isFreePromotion ? 'bg-success text-white' : 'bg-blue-500 text-white'
+                            }`}>
+                              {isFreePromotion ? 'BEPUL' : 'AKSIYA'}
+                            </span>
+                          )}
+                        </div>
                         <p className="text-xs text-muted-foreground truncate">{salonName}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-primary text-sm">{service.price.toLocaleString()} so'm</p>
-                        <p className="text-xs text-muted-foreground">{service.duration}</p>
+                        {isPromotionActive ? (
+                          <div>
+                            <p className="text-xs line-through text-muted-foreground">{originalPrice.toLocaleString()} so'm</p>
+                            <p className={`font-bold text-sm ${
+                              isFreePromotion ? 'text-success' : 'text-blue-600'
+                            }`}>
+                              {isFreePromotion ? 'Bepul' : `${effectivePrice.toLocaleString()} so'm`}
+                            </p>
+                          </div>
+                        ) : (
+                          <>
+                            <p className="font-bold text-primary text-sm">{service.price.toLocaleString()} so'm</p>
+                            <p className="text-xs text-muted-foreground">{service.duration}</p>
+                          </>
+                        )}
                       </div>
                     </div>
                   </Card>
@@ -590,7 +634,8 @@ const ServiceBookingModal = ({ service, salonName, salonId, isOpen, onClose }: S
                     </div>
                   </Card>
 
-                  {/* PROMOCODE SECTION - WITH TOGGLE */}
+                  {/* PROMOCODE SECTION - only show if no promotion is active */}
+                  {!isPromotionActive && (
                   <div className="space-y-3 pt-2">
                     {!showPromocodeInput && !appliedPromocode ? (
                       <Button
@@ -661,8 +706,10 @@ const ServiceBookingModal = ({ service, salonName, salonId, isOpen, onClose }: S
                       </div>
                     )}
                   </div>
+                  )}
 
-                  {/* Payment Method Selection */}
+                  {/* Payment Method Selection - hide for free promotions */}
+                  {!isFreePromotion && (
                   <div className="space-y-3 pt-2">
                     <h3 className="font-medium flex items-center gap-2 text-sm">
                       <Briefcase className="w-4 h-4 text-primary" />
@@ -778,22 +825,28 @@ const ServiceBookingModal = ({ service, salonName, salonId, isOpen, onClose }: S
                       </div>
                     </RadioGroup>
                   </div>
+                  )}
 
                   {/* Price Summary */}
                   <Card className="p-4 bg-secondary/50">
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">Xizmat narxi</span>
-                        <span className={`font-medium ${discountAmount > 0 ? "text-muted-foreground line-through" : "text-foreground"}`}>
-                          {service.price.toLocaleString()} so'm
+                        <span className={`font-medium ${(discountAmount > 0 || isPromotionActive) ? "text-muted-foreground line-through" : "text-foreground"}`}>
+                          {originalPrice.toLocaleString()} so'm
                         </span>
                       </div>
 
                       {discountAmount > 0 && (
-                        <div className="flex justify-between text-sm text-success">
+                        <div className={`flex justify-between text-sm ${
+                          isPromotionActive ? (isFreePromotion ? 'text-success' : 'text-blue-600') : 'text-success'
+                        }`}>
                           <span className="flex items-center gap-1">
                             <Tag className="w-3 h-3" />
-                            Chegirma ({appliedPromocode?.code})
+                            {isPromotionActive
+                              ? (isFreePromotion ? 'Bepul aksiya' : 'Aksiya chegirmasi')
+                              : `Chegirma (${appliedPromocode?.code})`
+                            }
                           </span>
                           <span>-{discountAmount.toLocaleString()} so'm</span>
                         </div>

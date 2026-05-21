@@ -64,6 +64,7 @@ import ClientPremiumPage from "./pages/client/ClientPremiumPage";
 import LandingPage from "./pages/LandingPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage";
+import PromotionDetailPage from "./pages/PromotionDetailPage";
 
 const AdminLayoutWrapper = () => (
   <AdminLayout>
@@ -106,6 +107,7 @@ const AppContent = () => {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/reviews" element={<ReviewsPage />} />
         <Route path="/salon/:id" element={<SalonDetail />} />
+        <Route path="/promotion/:id" element={<PromotionDetailPage />} />
         <Route path="/bookings" element={<BookingsPage />} />
         <Route path="/bookings/:id" element={<BookingDetailPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />

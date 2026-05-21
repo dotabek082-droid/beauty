@@ -38,7 +38,31 @@ export interface FeedbackQuestion {
 // Mock data
 // Mock data
 export const mockPromotions: Promotion[] = [
-  // 1. Lottery Promotion (Win an iPhone)
+  // 0. ACTIVE Lottery Promotion (Samsung Galaxy S25 Ultra) — currently open for registration
+  {
+    id: "promo-lottery-active",
+    salonId: "biz-1",
+    salonName: "Belleza Studio",
+    serviceName: "Samsung Galaxy S25 Ultra Yutib Oling!",
+    serviceDescription: "Katta sovg'a o'yini! Har bir ishtirokchi Samsung Galaxy S25 Ultra yutib olish imkoniyatiga ega. Hoziroq ro'yxatdan o'ting!",
+    originalPrice: 18000000, // Value of the prize
+    imageUrl: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=300&fit=crop",
+    slotsAvailable: 2000,
+    slotsUsed: 312,
+    startsAt: "2026-05-01",
+    endsAt: "2026-06-15",
+    isActive: true,
+    ticketPrice: 300, // Entry fee in coins
+    lotteryEnabled: true,
+    entryDeadline: "2026-06-15",
+    winnerSelectionDate: "2026-06-20",
+    totalWinners: 2,
+    currentEntries: 312,
+    reviewDeadlineHours: 48,
+    promotionType: "lottery"
+  },
+
+  // 1. Lottery Promotion (Win an iPhone) — EXPIRED
   // Logic: User pays ticketPrice (500 coins) to enter. Winner gets item for free.
   {
     id: "promo-lottery-1",
