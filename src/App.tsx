@@ -65,6 +65,7 @@ import LandingPage from "./pages/LandingPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage";
 import PromotionDetailPage from "./pages/PromotionDetailPage";
+import BusinessNotificationsPage from "./pages/BusinessNotificationsPage";
 
 const AdminLayoutWrapper = () => (
   <AdminLayout>
@@ -160,6 +161,7 @@ const AppContent = () => {
         <Route path="/business/reviews" element={<BusinessReviewsPage />} />
         <Route path="/business/clients" element={<BusinessClientsPage />} />
         <Route path="/business/scan-qr" element={<BusinessQRScannerPage />} />
+        <Route path="/business/notifications" element={<BusinessNotificationsPage />} />
         <Route path="/my-registrations" element={<MyRegistrationsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

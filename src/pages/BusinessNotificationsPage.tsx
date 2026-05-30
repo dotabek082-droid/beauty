@@ -8,25 +8,30 @@ import {
   Clock,
   XCircle,
   Calendar,
-  Gift,
+  Star,
+  Megaphone,
   ChevronRight,
   Sparkles,
   Info,
   AlertTriangle,
+  UserPlus,
   Check
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import BottomNav from "@/components/BottomNav";
+import BusinessBottomNav from "@/components/BusinessBottomNav";
 
 // ─── Types ───
 type ActivityType =
-  | "confirmed"
-  | "pending"
-  | "scheduled"
-  | "completed"
-  | "cancelled"
-  | "lottery";
+  | "booking_new"
+  | "booking_confirmed"
+  | "booking_cancelled"
+  | "booking_completed"
+  | "review_new"
+  | "promotion_approved"
+  | "promotion_rejected"
+  | "promotion_pending"
+  | "new_client";
 
 type NewsType = "info" | "warning" | "feature" | "success";
 
@@ -51,73 +56,94 @@ interface NewsNotification {
   isRead: boolean;
 }
 
-// ─── Mock Activity Data ───
+// ─── Mock Business Activity Data ───
 const initialActivities: ActivityNotification[] = [
   {
-    id: "a1",
-    type: "confirmed",
-    title: 'Buyurtma tasdiqlandi ✅',
+    id: "ba1",
+    type: "booking_new",
+    title: "Yangi buyurtma 📋",
+    statusLabel: "Yangi",
+    message: 'Aziza Karimova "Soch turmagi" xizmatiga bugun soat 14:00 ga yozildi.',
+    time: "15 daqiqa oldin",
+    navigateLabel: "Buyurtmalarni ko'rish",
+    navigateTo: "/business/bookings",
+    isRead: false,
+  },
+  {
+    id: "ba2",
+    type: "booking_new",
+    title: "Yangi buyurtma 📋",
+    statusLabel: "Yangi",
+    message: 'Dilnoza Rahimova "Manikur" xizmatiga ertaga soat 10:00 ga yozildi.',
+    time: "45 daqiqa oldin",
+    navigateLabel: "Buyurtmalarni ko'rish",
+    navigateTo: "/business/bookings",
+    isRead: false,
+  },
+  {
+    id: "ba3",
+    type: "review_new",
+    title: "Yangi sharh ⭐",
+    statusLabel: "Sharh",
+    message: 'Malika Karimova: "Xizmat a\'lo darajada! Juda mamnunman." ⭐⭐⭐⭐⭐',
+    time: "1 soat oldin",
+    navigateLabel: "Sharhlarni ko'rish",
+    navigateTo: "/business/reviews",
+    isRead: false,
+  },
+  {
+    id: "ba4",
+    type: "promotion_approved",
+    title: "Aksiya tasdiqlandi ✅",
     statusLabel: "Tasdiqlangan",
-    message: 'Oltin Qaychi — "Soch kesish" 2-fevral soat 11:00',
-    time: "30 daqiqa oldin",
-    navigateLabel: "Buyurtmalarim",
-    navigateTo: "/bookings",
-    isRead: false,
-  },
-  {
-    id: "a2",
-    type: "pending",
-    title: "Buyurtma kutilmoqda",
-    statusLabel: "Kutilmoqda",
-    message: "G'uncha Go'zallik — \"Makiyaj\" 5-fevral soat 14:00",
+    message: '"Bahorgi Chegirma — Soch kesish 30% OFF" admin tomonidan tasdiqlandi va mijozlarga ko\'rinadi.',
     time: "2 soat oldin",
-    navigateLabel: "Buyurtmalarim",
-    navigateTo: "/bookings",
+    navigateLabel: "Aksiyalarni ko'rish",
+    navigateTo: "/business/promotions",
     isRead: false,
   },
   {
-    id: "a3",
-    type: "scheduled",
-    title: "Vaqt belgilandi 📅",
-    statusLabel: "Rejalashtirilgan",
-    message: 'Lola Nails — "Manikyur" 3-fevral soat 10:30',
+    id: "ba5",
+    type: "promotion_pending",
+    title: "Aksiya kutilmoqda ⏳",
+    statusLabel: "Kutilmoqda",
+    message: '"Yoz chegirmasi — Manikur 50% OFF" admin ko\'rib chiqishi kutilmoqda.',
     time: "3 soat oldin",
-    navigateLabel: "Buyurtmalarim",
-    navigateTo: "/bookings",
+    navigateLabel: "Aksiyalarni ko'rish",
+    navigateTo: "/business/promotions",
     isRead: false,
   },
   {
-    id: "a4",
-    type: "completed",
-    title: "Xizmat yakunlandi 🎉",
-    statusLabel: "Yakunlangan",
-    message:
-      'Oltin Qaychi — "Soch bo\'yash" muvaffaqiyatli yakunlandi. Sharh qoldiring!',
-    time: "1 kun oldin",
-    navigateLabel: "Buyurtmalarim",
-    navigateTo: "/bookings",
-    isRead: false,
-  },
-  {
-    id: "a5",
-    type: "cancelled",
-    title: "Buyurtma bekor qilindi",
+    id: "ba6",
+    type: "booking_cancelled",
+    title: "Buyurtma bekor qilindi ❌",
     statusLabel: "Bekor",
-    message: 'Glamour Hair — "Ayollar soch turmagi" bekor qilindi.',
-    time: "2 kun oldin",
-    navigateLabel: "Buyurtmalarim",
-    navigateTo: "/bookings",
+    message: 'Jasur Toshmatov "Soqol olish" xizmatidan voz kechdi (bugun 16:00).',
+    time: "4 soat oldin",
+    navigateLabel: "Buyurtmalarni ko'rish",
+    navigateTo: "/business/bookings",
     isRead: true,
   },
   {
-    id: "a6",
-    type: "lottery",
-    title: "🎰 Lotereya boshlanmoqda!",
-    statusLabel: "Lotereya",
-    message: 'Belleza Studio: "Samsung Galaxy S25 Ultra Yutib Oling!"',
-    time: "1 May",
-    navigateLabel: "Aksiyani ko'rish",
-    navigateTo: "/my-registrations",
+    id: "ba7",
+    type: "booking_completed",
+    title: "Xizmat yakunlandi 🎉",
+    statusLabel: "Yakunlangan",
+    message: 'Sardor Aliyev uchun "Soch kesish" muvaffaqiyatli yakunlandi.',
+    time: "6 soat oldin",
+    navigateLabel: "Buyurtmalarni ko'rish",
+    navigateTo: "/business/bookings",
+    isRead: true,
+  },
+  {
+    id: "ba8",
+    type: "new_client",
+    title: "Yangi mijoz qo'shildi 👋",
+    statusLabel: "Yangi mijoz",
+    message: 'Nodira Usmanova ilk bor sizning salonga yozildi!',
+    time: "1 kun oldin",
+    navigateLabel: "Mijozlar",
+    navigateTo: "/business/clients",
     isRead: true,
   },
 ];
@@ -125,47 +151,42 @@ const initialActivities: ActivityNotification[] = [
 // ─── Mock News Data ───
 const initialNews: NewsNotification[] = [
   {
-    id: "n1",
+    id: "bn1",
     type: "feature",
-    title: "Yangi funksiya: Onlayn to'lov 💳",
-    message:
-      "Endi siz xizmatlar uchun to'g'ridan-to'g'ri ilovadan to'lov qilishingiz mumkin!",
+    title: "Yangi funksiya: QR skanerlash 📱",
+    message: "Endi mijozlar QR kod orqali ro'yxatdan o'tishi mumkin. Ilovada yangi QR skaner!",
     date: "1 May",
     isRead: false,
   },
   {
-    id: "n2",
+    id: "bn2",
     type: "info",
-    title: "Tizim yangilandi 🔄",
-    message:
-      "Ilova tezligi oshirildi va bir nechta xatoliklar tuzatildi. Yangilanib oling!",
+    title: "Statistika yangilandi 📊",
+    message: "Biznes panelingizda yangi statistika grafiklari qo'shildi. Daromadingizni kuzating!",
     date: "28 Apr",
     isRead: false,
   },
   {
-    id: "n3",
+    id: "bn3",
     type: "success",
-    title: "Yangi salonlar qo'shildi 🎊",
-    message:
-      "Toshkent shahrida 15 ta yangi salon qo'shildi. Hoziroq ko'ring!",
+    title: "Premium obuna imkoniyati 👑",
+    message: "Yangi Premium tarif rejalari chiqdi. Ko'proq aksiya va mijozlarga ega bo'ling!",
     date: "25 Apr",
     isRead: false,
   },
   {
-    id: "n4",
+    id: "bn4",
     type: "warning",
     title: "Texnik profilaktika ⚠️",
-    message:
-      "3-may kuni soat 02:00-04:00 orasida tizim vaqtincha to'xtatiladi.",
+    message: "3-may kuni soat 02:00-04:00 orasida tizim vaqtincha to'xtatiladi.",
     date: "23 Apr",
     isRead: true,
   },
   {
-    id: "n5",
+    id: "bn5",
     type: "info",
-    title: "Sharh tizimi yangilandi",
-    message:
-      "Endi siz salonlarga rasm bilan sharh qoldirishingiz mumkin. Tajribangizni ulashing!",
+    title: "Aksiya qoidalari yangilandi",
+    message: "Aksiya yaratish uchun yangi qoidalar kuchga kirdi. Batafsil o'qing.",
     date: "20 Apr",
     isRead: true,
   },
@@ -174,40 +195,58 @@ const initialNews: NewsNotification[] = [
 // ─── Helper: icon per activity type ───
 const getActivityIcon = (type: ActivityType) => {
   switch (type) {
-    case "confirmed":
-      return (
-        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-green-100 to-emerald-50 dark:from-green-900/40 dark:to-emerald-900/20 shadow-sm">
-          <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
-        </div>
-      );
-    case "pending":
-      return (
-        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-amber-100 to-yellow-50 dark:from-amber-900/40 dark:to-yellow-900/20 shadow-sm">
-          <Clock className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-        </div>
-      );
-    case "scheduled":
+    case "booking_new":
       return (
         <div className="p-2.5 rounded-2xl bg-gradient-to-br from-blue-100 to-sky-50 dark:from-blue-900/40 dark:to-sky-900/20 shadow-sm">
           <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
         </div>
       );
-    case "completed":
+    case "booking_confirmed":
       return (
-        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/20 shadow-sm">
-          <Sparkles className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-green-100 to-emerald-50 dark:from-green-900/40 dark:to-emerald-900/20 shadow-sm">
+          <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
         </div>
       );
-    case "cancelled":
+    case "booking_cancelled":
       return (
         <div className="p-2.5 rounded-2xl bg-gradient-to-br from-red-100 to-rose-50 dark:from-red-900/40 dark:to-rose-900/20 shadow-sm">
           <XCircle className="w-5 h-5 text-red-500 dark:text-red-400" />
         </div>
       );
-    case "lottery":
+    case "booking_completed":
       return (
-        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-purple-100 to-violet-50 dark:from-purple-900/40 dark:to-violet-900/20 shadow-sm">
-          <Gift className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-900/40 dark:to-teal-900/20 shadow-sm">
+          <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+        </div>
+      );
+    case "review_new":
+      return (
+        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-yellow-100 to-amber-50 dark:from-yellow-900/40 dark:to-amber-900/20 shadow-sm">
+          <Star className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+        </div>
+      );
+    case "promotion_approved":
+      return (
+        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-green-100 to-emerald-50 dark:from-green-900/40 dark:to-emerald-900/20 shadow-sm">
+          <Megaphone className="w-5 h-5 text-green-600 dark:text-green-400" />
+        </div>
+      );
+    case "promotion_rejected":
+      return (
+        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-orange-100 to-amber-50 dark:from-orange-900/40 dark:to-amber-900/20 shadow-sm">
+          <AlertTriangle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+        </div>
+      );
+    case "promotion_pending":
+      return (
+        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-amber-100 to-yellow-50 dark:from-amber-900/40 dark:to-yellow-900/20 shadow-sm">
+          <Clock className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+        </div>
+      );
+    case "new_client":
+      return (
+        <div className="p-2.5 rounded-2xl bg-gradient-to-br from-indigo-100 to-violet-50 dark:from-indigo-900/40 dark:to-violet-900/20 shadow-sm">
+          <UserPlus className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
         </div>
       );
   }
@@ -216,23 +255,18 @@ const getActivityIcon = (type: ActivityType) => {
 // ─── Helper: badge per activity type ───
 const getActivityBadge = (type: ActivityType, label: string) => {
   const colorMap: Record<ActivityType, string> = {
-    confirmed:
-      "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300",
-    pending:
-      "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
-    scheduled:
-      "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
-    completed:
-      "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
-    cancelled:
-      "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300",
-    lottery:
-      "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300",
+    booking_new: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
+    booking_confirmed: "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300",
+    booking_cancelled: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300",
+    booking_completed: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+    review_new: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300",
+    promotion_approved: "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300",
+    promotion_rejected: "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300",
+    promotion_pending: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+    new_client: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300",
   };
   return (
-    <Badge
-      className={`${colorMap[type]} text-[10px] font-semibold border-0 px-2 py-0.5`}
-    >
+    <Badge className={`${colorMap[type]} text-[10px] font-semibold border-0 px-2 py-0.5`}>
       {label}
     </Badge>
   );
@@ -269,12 +303,12 @@ const getNewsIcon = (type: NewsType) => {
 };
 
 // ═══════════════════ MAIN COMPONENT ═══════════════════
-const NotificationsPage = () => {
+const BusinessNotificationsPage = () => {
   const navigate = useNavigate();
-  const [activities, setActivities] =
-    useState<ActivityNotification[]>(initialActivities);
+  const [activities, setActivities] = useState<ActivityNotification[]>(initialActivities);
   const [news, setNews] = useState<NewsNotification[]>(initialNews);
   const [activeTab, setActiveTab] = useState<"activity" | "news">("activity");
+  const [bottomNavTab] = useState("home");
 
   const unreadActivityCount = activities.filter((a) => !a.isRead).length;
   const unreadNewsCount = news.filter((n) => !n.isRead).length;
@@ -311,7 +345,7 @@ const NotificationsPage = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/business")}
               className="rounded-xl hover:bg-muted/80"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -557,9 +591,9 @@ const NotificationsPage = () => {
         </AnimatePresence>
       </div>
 
-      <BottomNav />
+      <BusinessBottomNav activeTab={bottomNavTab} onTabChange={() => navigate("/business")} />
     </div>
   );
 };
 
-export default NotificationsPage;
+export default BusinessNotificationsPage;

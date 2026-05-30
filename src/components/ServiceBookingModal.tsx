@@ -237,6 +237,26 @@ const ServiceBookingModal = ({ service, salonName, salonId, isOpen, onClose, pro
       return;
     }
 
+    // Validate status — only active codes can be used
+    if (promo.status === 'draft') {
+      setPromocodeError("Bu promokod hali faollashtirilmagan");
+      return;
+    }
+    if (promo.status === 'used') {
+      setPromocodeError("Bu promokod allaqachon ishlatilgan");
+      return;
+    }
+    if (promo.status === 'expired') {
+      setPromocodeError("Promokod muddati tugagan");
+      return;
+    }
+
+    // Validate Start Date
+    if (promo.startDate && new Date() < new Date(promo.startDate)) {
+      setPromocodeError("Promokod amal qilish muddati hali boshlanmagan");
+      return;
+    }
+
     // Validate Valid Until
     if (new Date(promo.validUntil) < new Date()) {
       setPromocodeError("Promokod muddati tugagan");

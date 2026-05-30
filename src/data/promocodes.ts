@@ -6,8 +6,9 @@ export interface Promocode {
     discountType: 'percent' | 'fixed';
     discountValue: number;
     minOrderAmount?: number;
+    startDate?: string;
     validUntil: string;
-    status: 'active' | 'used' | 'expired';
+    status: 'active' | 'draft' | 'used' | 'expired';
     source: 'system' | 'admin';
     applicableCategories?: string[]; // e.g., ['Soch turmaklash', 'Avto']
 }

@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -56,6 +56,20 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     const navigate = useNavigate();
     const { user, profile, signOut } = useAuth();
     const [collapsed, setCollapsed] = useState(false);
+    const [flaggedReviewsCount, setFlaggedReviewsCount] = useState<number>(0);
+
+    // Dynamic effect to load and count flagged reviews for admin attention
+    useEffect(() => {
+        try {
+            // Count mock reviews that are flagged (our seed data has 1 flagged review initially)
+            const mockFlaggedCount = 1;
+            const stored = JSON.parse(localStorage.getItem('user_reviews') || '[]');
+            const flaggedInStore = stored.filter((r: any) => r.status === 'flagged').length;
+            setFlaggedReviewsCount(mockFlaggedCount + flaggedInStore);
+        } catch {
+            setFlaggedReviewsCount(1);
+        }
+    }, []);
 
     const navSections: NavSection[] = [
         {
@@ -93,7 +107,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
         {
             title: "Boshqa",
             items: [
-                { label: "Sharhlar", path: "/admin/reviews", icon: MessageSquare },
+                { label: "Sharhlar", path: "/admin/reviews", icon: MessageSquare, badge: flaggedReviewsCount },
                 { label: "Yangiliklar", path: "/admin/news", icon: Bell },
             ],
         },

@@ -66,7 +66,11 @@ export const fakeClientReviews = [
         photos: ["https://images.unsplash.com/photo-1626200419199-391ae4be7a41?auto=format&fit=crop&q=80&w=600"],
         created_at: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 15,
-        dislikes: 2
+        dislikes: 2,
+        reply: {
+            comment: "Tashrifingiz uchun rahmat! Ofitsiantlarimiz sekin ishlagani uchun uzr so'raymiz, xodimlar sonini ko'paytirdik. Sizni yana kutamiz!",
+            created_at: new Date(Date.now() - 11.5 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-5',
@@ -98,7 +102,11 @@ export const fakeClientReviews = [
         photos: ["https://images.unsplash.com/photo-1632345031433-d99c381c630f?auto=format&fit=crop&q=80&w=600"],
         created_at: new Date(Date.now() - 18 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 7,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Go'zal fikringiz uchun kattakon rahmat! Tirnoq dizayni sizga yoqqanidan judayam mamnunmiz. Tez orada yana kutib qolamiz!",
+            created_at: new Date(Date.now() - 17.5 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-7',
@@ -148,7 +156,11 @@ export const fakeClientReviews = [
         photos: ["https://images.unsplash.com/photo-1626804475297-411dbb166946?auto=format&fit=crop&q=80&w=600"],
         created_at: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 18,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Kattakon rahmat! Biz har doim tez va mazali bo'lishiga harakat qilamiz. Yoqimli ishtaha!",
+            created_at: new Date(Date.now() - 24 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-10',
@@ -180,7 +192,11 @@ export const fakeClientReviews = [
         photos: [],
         created_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 4,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Tishlaringiz doimo sog'lom bo'lsin! Salomatligingiz biz uchun eng muhim qadriyatdir. Rahmat!",
+            created_at: new Date(Date.now() - 29 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-12',
@@ -212,7 +228,11 @@ export const fakeClientReviews = [
         photos: ["https://images.unsplash.com/photo-1585747860715-28b5845070c2?auto=format&fit=crop&q=80&w=600"],
         created_at: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 14,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Rahmat, do'stim! Biz har doim erkaklar uchun eng zo'r xizmat va muhitni taqdim etamiz. Omad!",
+            created_at: new Date(Date.now() - 39 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-14',
@@ -244,7 +264,11 @@ export const fakeClientReviews = [
         photos: [],
         created_at: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 5,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Mashinangiz yaltirab tursin! Sifatli yuvish va tozalash bo'yicha har doim xizmatingizdamiz.",
+            created_at: new Date(Date.now() - 44 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-16',
@@ -258,7 +282,11 @@ export const fakeClientReviews = [
         photos: ["https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=600"],
         created_at: new Date(Date.now() - 48 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 11,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Chizkeyk va kofemiz yoqqanidan xursandmiz! Shuningdek, ishlashingiz uchun qulay Wi-Fi va muhitni saqlab qolamiz. Rahmat!",
+            created_at: new Date(Date.now() - 47 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-17',
@@ -272,7 +300,11 @@ export const fakeClientReviews = [
         photos: ["https://images.unsplash.com/photo-1560750588-4328346745e9?auto=format&fit=crop&q=80&w=600"],
         created_at: new Date(Date.now() - 50 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 8,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Bizda ajoyib hordiq chiqarganingizdan mamnunmiz! Basseyn va saunamiz sizga yoqqanidan xursandmiz. Yana kutamiz!",
+            created_at: new Date(Date.now() - 49 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-18',
@@ -286,7 +318,11 @@ export const fakeClientReviews = [
         photos: [],
         created_at: new Date(Date.now() - 55 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 4,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Telefoningiz yaxshi ishlasin! Hamyonbop va tez xizmat ko'rsatish bizning asosiy maqsadimizdir.",
+            created_at: new Date(Date.now() - 54 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-19',
@@ -300,7 +336,11 @@ export const fakeClientReviews = [
         photos: ["https://images.unsplash.com/photo-1562690868-60bbe7293e94?auto=format&fit=crop&q=80&w=600"],
         created_at: new Date(Date.now() - 58 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 6,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Onangiz yoqtirganlaridan judayam mamnunmiz! Guldastamiz yoqqanidan xursandmiz. Yana buyurtmalar kutib qolamiz!",
+            created_at: new Date(Date.now() - 57 * 24 * 60 * 60 * 1000).toISOString()
+        }
     },
     {
         id: 'fake-review-20',
@@ -314,6 +354,10 @@ export const fakeClientReviews = [
         photos: [],
         created_at: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(),
         likes: 3,
-        dislikes: 0
+        dislikes: 0,
+        reply: {
+            comment: "Qulay safar qilganingizdan xursandmiz! Haydovchimizning muloyimligi va tozalik biz uchun doim birinchi o'rinda. Rahmat!",
+            created_at: new Date(Date.now() - 59 * 24 * 60 * 60 * 1000).toISOString()
+        }
     }
 ];

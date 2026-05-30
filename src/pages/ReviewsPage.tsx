@@ -15,6 +15,10 @@ interface Review {
     comment: string;
     created_at: string;
     photos?: string[];
+    reply?: {
+        comment: string;
+        created_at: string;
+    };
 }
 
 const ReviewsPage = () => {
@@ -24,7 +28,7 @@ const ReviewsPage = () => {
 
     useEffect(() => {
         // Simulate loading for better UX
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             try {
                 const storedReviews = JSON.parse(localStorage.getItem('user_reviews') || '[]');
 
@@ -33,6 +37,7 @@ const ReviewsPage = () => {
                     .sort((a: any, b: any) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
                 // Enhance with business details
+                const storedInteractions = JSON.parse(localStorage.getItem('review_interactions') || '{}');
                 const enhancedReviews = sortedReviews.map((review: any) => {
                     let businessName = review.business_name;
                     const business = mockBusinesses.find(b => b.id === review.business_id);
@@ -53,11 +58,19 @@ const ReviewsPage = () => {
                         }
                     }
 
+                    const interaction = storedInteractions[review.id] || {};
+                    const interactionReply = interaction.replies?.[0];
+                    const reply = review.reply || (interactionReply ? {
+                        comment: interactionReply.comment,
+                        created_at: interactionReply.created_at
+                    } : undefined);
+
                     return {
                         ...review,
                         business_name: businessName,
                         comment: comment,
-                        photos: photos
+                        photos: photos,
+                        reply: reply
                     };
                 });
 
@@ -68,6 +81,7 @@ const ReviewsPage = () => {
                 setLoading(false);
             }
         }, 500);
+        return () => clearTimeout(timer);
     }, []);
 
     return (

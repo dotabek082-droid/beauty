@@ -1,9 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Gift, Star, Users, TrendingUp, ChevronRight, MessageSquare, Activity, QrCode, Clock, CheckCircle2, User, Phone, Wallet, Banknote, CreditCard, XCircle, Shield } from "lucide-react";
+import { Calendar, Gift, Star, Users, TrendingUp, ChevronRight, MessageSquare, Activity, QrCode, Clock, CheckCircle2, User, Phone, Wallet, Banknote, CreditCard, XCircle, Shield, Bell } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { useBusinessBookings } from "@/hooks/useBusinessBookings";
 import { fakeClientReviews } from "@/data/fakeClientReviews";
 import { format } from "date-fns";
@@ -16,6 +17,7 @@ interface BusinessAnalyticsHomeProps {
 
 export const BusinessAnalyticsHome = ({ onProfileClick, onTabChange }: BusinessAnalyticsHomeProps) => {
   const { user, profile } = useAuth();
+  const navigate = useNavigate();
   const { bookings, confirmBooking, cancelBooking, loading: bookingsLoading } = useBusinessBookings();
   
   // Get trust status text
@@ -174,12 +176,23 @@ export const BusinessAnalyticsHome = ({ onProfileClick, onTabChange }: BusinessA
                       </div>
                    </div>
                 </div>
-                <button 
-                   onClick={onProfileClick}
-                   className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white text-base font-bold backdrop-blur-md border border-white/30 shadow-lg hover:bg-white/30 transition-colors shrink-0"
-                >
-                    {profile?.full_name?.charAt(0) || "S"}
-                </button>
+                <div className="flex items-center gap-2 shrink-0">
+                   <button
+                      onClick={() => navigate("/business/notifications")}
+                      className="relative w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center text-white backdrop-blur-md border border-white/20 shadow-lg hover:bg-white/25 transition-all duration-200 group"
+                   >
+                      <Bell className="w-[18px] h-[18px] group-hover:scale-110 transition-transform" />
+                      <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-red-500 border-2 border-indigo-600 rounded-full text-[9px] text-white font-black flex items-center justify-center px-1 shadow-lg shadow-red-500/30 animate-pulse">
+                         5
+                      </span>
+                   </button>
+                   <button 
+                      onClick={onProfileClick}
+                      className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white text-base font-bold backdrop-blur-md border border-white/30 shadow-lg hover:bg-white/30 transition-colors"
+                   >
+                       {profile?.full_name?.charAt(0) || "S"}
+                   </button>
+                </div>
              </div>
          </div>
          

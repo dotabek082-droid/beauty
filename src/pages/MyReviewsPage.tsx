@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Star, Calendar, MapPin, Loader2, MessageCircle, Plus, ThumbsUp, ThumbsDown, Verified, X } from "lucide-react";
+import { ArrowLeft, Star, Calendar, MapPin, Loader2, MessageCircle, Plus, ThumbsUp, ThumbsDown, Verified, X, Trash2, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -11,6 +11,7 @@ import AddFeedbackDialog from "@/components/AddFeedbackDialog";
 import { useAuth } from "@/contexts/AuthContext";
 import { format } from "date-fns";
 import { fakeClientReviews } from "@/data/fakeClientReviews";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 interface FeedbackItem {
   id: string;
@@ -40,10 +41,90 @@ const MyReviewsPage = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [interactions, setInteractions] = useState<Record<string, any>>({});
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [reviewToDeleteId, setReviewToDeleteId] = useState<string | null>(null);
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; // Reduced to 5 as per request
+
+  const deleteReview = async (reviewId: string) => {
+    try {
+      setLoading(true);
+
+      // Find the review to calculate points to deduct
+      const reviewToDelete = feedbacks.find(r => r.id === reviewId);
+      if (!reviewToDelete) return;
+
+      let pointsToDeduct = 0;
+      let pointReason = "";
+
+      let comment = "";
+      let rating = reviewToDelete.overall_rating;
+      let photos: string[] = [];
+
+      try {
+        const parsed = JSON.parse(reviewToDelete.additional_comments || '{}');
+        comment = parsed.comment || "";
+        photos = parsed.photos || [];
+      } catch {
+        comment = reviewToDelete.additional_comments;
+      }
+
+      if (photos.length > 0) {
+        pointsToDeduct = 15;
+        pointReason = "Sharh o'chirilishi (Suratli)";
+      } else if (rating >= 4) {
+        pointsToDeduct = 5;
+        pointReason = "Sharh o'chirilishi";
+      }
+
+      // 1. Remove from localStorage (user_reviews)
+      const storedReviews = JSON.parse(localStorage.getItem('user_reviews') || '[]');
+      const updatedReviews = storedReviews.filter((r: any) => r.id !== reviewId);
+      localStorage.setItem('user_reviews', JSON.stringify(updatedReviews));
+
+      // 2. Add negative trust history entry
+      if (pointsToDeduct > 0 && user) {
+        const historyItem = {
+          id: crypto.randomUUID(),
+          action: pointReason,
+          scoreChange: -pointsToDeduct,
+          date: new Date().toISOString().split('T')[0],
+          type: 'decrease'
+        };
+        const existingHistory = JSON.parse(localStorage.getItem('user_trust_history') || '[]');
+        existingHistory.unshift(historyItem);
+        localStorage.setItem('user_trust_history', JSON.stringify(existingHistory));
+
+        // 3. Update trust score in Supabase
+        const { data: currentProfile } = await import("@/integrations/supabase/client").then(m => m.supabase
+            .from('profiles')
+            .select('trust_score')
+            .eq('user_id', user.id)
+            .single()
+        );
+
+        if (currentProfile) {
+            const newScore = Math.max(0, (currentProfile.trust_score || 0) - pointsToDeduct);
+            await import("@/integrations/supabase/client").then(m => m.supabase
+                .from('profiles')
+                .update({ trust_score: newScore })
+                .eq('user_id', user.id)
+            );
+        }
+      }
+
+      // Update UI state by removing the review
+      setFeedbacks(prev => prev.filter(r => r.id !== reviewId));
+
+      import("sonner").then(m => m.toast.success("Sharh muvaffaqiyatli o'chirildi va ballar qayta hisoblandi."));
+    } catch (err) {
+      console.error("Error deleting review:", err);
+      import("sonner").then(m => m.toast.error("Sharhni o'chirishda xatolik yuz berdi."));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -161,16 +242,27 @@ const MyReviewsPage = () => {
     <div className="min-h-screen bg-background pb-24">
       {/* Header */}
       <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-lg border-b border-border">
-        <div className="flex items-center gap-3 p-3 safe-top">
-          <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="h-8 w-8">
-            <ArrowLeft className="w-5 h-5" />
-          </Button>
-          <div className="flex-1">
-            <h1 className="text-lg font-bold text-foreground">Fikrlarim</h1>
-            <p className="text-xs text-muted-foreground">
-              {loading ? "Yuklanmoqda..." : `${feedbacks.length} ta fikr`}
-            </p>
+        <div className="flex items-center justify-between gap-3 p-3 safe-top">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="h-8 w-8 shrink-0">
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div className="min-w-0">
+              <h1 className="text-lg font-bold text-foreground leading-5 truncate">Fikrlarim</h1>
+              <p className="text-xs text-muted-foreground truncate">
+                {loading ? "Yuklanmoqda..." : `${feedbacks.length} ta fikr`}
+              </p>
+            </div>
           </div>
+
+          <Button
+            size="sm"
+            onClick={() => setIsAddDialogOpen(true)}
+            className="rounded-full flex items-center gap-1.5 shadow-sm font-medium hover:scale-105 active:scale-95 transition-all shrink-0 bg-primary text-primary-foreground px-3 py-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span className="text-xs">Fikr qoldirish</span>
+          </Button>
         </div>
       </div>
 
@@ -248,9 +340,18 @@ const MyReviewsPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <span className="text-[10px] text-muted-foreground shrink-0 bg-secondary/50 px-1.5 py-0.5 rounded">
-                              {formatDate(feedback.created_at)}
-                            </span>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className="text-[10px] text-muted-foreground bg-secondary/50 px-1.5 py-0.5 rounded">
+                                {formatDate(feedback.created_at)}
+                              </span>
+                              <button
+                                onClick={() => setReviewToDeleteId(feedback.id)}
+                                className="text-muted-foreground hover:text-destructive active:scale-90 transition-all p-1 hover:bg-secondary rounded-full"
+                                title="Sharhni o'chirish"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           </div>
                         )}
 
@@ -395,21 +496,6 @@ const MyReviewsPage = () => {
         </div>
       )}
 
-      {/* Floating Add Button */}
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.5 }}
-        className="fixed bottom-24 right-4 z-30"
-      >
-        <Button
-          size="lg"
-          className="h-14 w-14 rounded-full shadow-lg"
-          onClick={() => setIsAddDialogOpen(true)}
-        >
-          <Plus className="w-6 h-6" />
-        </Button>
-      </motion.div>
 
       <AddFeedbackDialog
         open={isAddDialogOpen}
@@ -419,6 +505,44 @@ const MyReviewsPage = () => {
           fetchInteractions();
         }}
       />
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={!!reviewToDeleteId} onOpenChange={(open) => !open && setReviewToDeleteId(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-destructive">
+              <AlertTriangle className="w-5 h-5" />
+              Sharhni o'chirish
+            </DialogTitle>
+            <DialogDescription>
+              Haqiqatan ham ushbu sharhni o'chirmoqchimisiz? Ushbu amal ortga qaytarilmaydi va sharh uchun berilgan trust-ballar chegirib tashlanadi.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end gap-3 pt-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setReviewToDeleteId(null)}
+              disabled={loading}
+            >
+              Bekor qilish
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => {
+                if (reviewToDeleteId) {
+                  deleteReview(reviewToDeleteId);
+                  setReviewToDeleteId(null);
+                }
+              }}
+              disabled={loading}
+            >
+              {loading ? "O'chirilmoqda..." : "O'chirish"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <BottomNav />
     </div>

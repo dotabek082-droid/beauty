@@ -43,6 +43,7 @@ const ProfilePage = () => {
   const { toast } = useToast();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isScoreDialogOpen, setIsScoreDialogOpen] = useState(false);
+  const [coinBalance, setCoinBalance] = useState<number | null>(null);
 
   // Business specific states
   const [isServiceAddOpen, setIsServiceAddOpen] = useState(false);
@@ -88,7 +89,7 @@ const ProfilePage = () => {
           title: "Moliya",
           items: [
             { icon: CreditCard, label: "To'lov usullari", badge: null, path: "/profile/payments" },
-            { icon: Coins, label: "Tangalar", badge: null, path: "/profile/coins" },
+            { icon: Coins, label: "Tangalar", badge: coinBalance !== null ? `${coinBalance} Tanga` : null, path: "/profile/coins" },
             { icon: Crown, label: "Biznes Obunasi", badge: "Pro", path: "/business/dashboard?tab=subscription" },
             { icon: TrendingUp, label: "Reklama va TOP", badge: null, path: "/business/promote" },
           ]
@@ -120,7 +121,7 @@ const ProfilePage = () => {
           title: "Moliya",
           items: [
             { icon: CreditCard, label: "To'lov usullari", badge: null, path: "/profile/payments" },
-            { icon: Coins, label: "Tangalar", badge: null, path: "/profile/coins" },
+            { icon: Coins, label: "Tangalar", badge: coinBalance !== null ? `${coinBalance} Tanga` : null, path: "/profile/coins" },
             { icon: Crown, label: "Mening Obunam", badge: "Standard", path: "/client/premium" },
           ]
         },
@@ -174,6 +175,8 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!loading && !user) {
       navigate("/auth");
+    } else if (user?.id) {
+      setCoinBalance(getCoinBalance(user.id));
     }
   }, [user, loading, navigate]);
 
@@ -302,37 +305,6 @@ const ProfilePage = () => {
       </div>
 
 
-      {/* Coin Balance Card - For Clients Only */}
-      {
-        !isAdmin && !isBusinessOwner && (
-          <div className="px-4 mb-6">
-            <ClientDashboardStats />
-
-            {/* Test Button for Demo */}
-            <div className="mt-2 flex justify-end">
-              <Button
-                variant="outline"
-                size="sm"
-                className="text-xs h-7 border-amber-500 text-amber-600 bg-amber-50 hover:bg-amber-100"
-                onClick={async () => {
-                  if (!user) return;
-                  const { addCoins } = await import("@/utils/coinBalance");
-                  addCoins(user.id, 10000, 'daily_login', 'Test: Bonus Coins');
-                  toast({
-                    title: "Muvaffaqiyatli!",
-                    description: "Hisobingizga 10,000 tanga qo'shildi (Test)",
-                    className: "bg-green-500 text-white border-green-600"
-                  });
-                  location.reload();
-                }}
-              >
-                <PlusCircle className="w-3 h-3 mr-1" />
-                Test: +10,000 Tanga
-              </Button>
-            </div>
-          </div>
-        )
-      }
 
       {/* Menu Items */}
       <div className={`px-4 space-y-6 ${isAdmin ? "md:grid md:grid-cols-2 md:gap-6 md:space-y-0" : ""}`}>

@@ -14,6 +14,10 @@ interface ReviewCardProps {
         comment: string;
         created_at: string;
         photos?: string[];
+        reply?: {
+            comment: string;
+            created_at: string;
+        };
     };
     onClick: () => void;
     className?: string;
@@ -155,6 +159,22 @@ const ReviewCard = ({ review, onClick, className = "", compact = false }: Review
                             +{review.photos.length - 1}
                         </div>
                     )}
+                </div>
+            )}
+            {/* Business Reply (Publicly visible) */}
+            {review.reply && (
+                <div className="mt-2 mb-3 bg-secondary/50 p-2.5 rounded-xl border-l-2 border-primary relative flex-shrink-0">
+                    <div className="flex items-center justify-between mb-1">
+                        <span className="text-[10px] font-bold text-primary">
+                            Tadbirkor javobi
+                        </span>
+                        <span className="text-[9px] text-muted-foreground">
+                            {new Date(review.reply.created_at).toLocaleDateString()}
+                        </span>
+                    </div>
+                    <p className="text-xs text-foreground/80 italic leading-snug">
+                        "{review.reply.comment}"
+                    </p>
                 </div>
             )}
 

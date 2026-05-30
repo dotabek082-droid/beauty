@@ -137,6 +137,8 @@ const BusinessDashboard = () => {
       navigate("/profile/coins");
     } else if (activeTab === "scan-qr") {
       navigate("/business/scan-qr");
+    } else if (activeTab === "inbox") {
+      navigate("/business/notifications");
     }
   }, [activeTab, navigate]);
 
